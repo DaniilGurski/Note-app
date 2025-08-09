@@ -1,7 +1,7 @@
 export default function App() {
   return (
     <>
-      <h1> Note App </h1>
+      <h1 className=""> Note App </h1>
     </>
   );
 }

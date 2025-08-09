@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* Inter */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  src: url("./assets/fonts/inter/Inter-VariableFont_opsz,wght.ttf")
+    format("truetype-variations");
+}
+
+/* Noto Serif */
+@font-face {
+  font-family: "Noto Serif";
+  font-style: normal;
+  font-weight: 400 700;
+  src: url("./assets/fonts/noto-serif/NotoSerif-VariableFont_wdth,wght.ttf")
+    format("truetype-variations");
+}
+
+/* Source Code Pro */
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400 700;
+  src: url("./assets/fonts/source-code-pro/SourceCodePro-VariableFont_wght.ttf")
+    format("truetype-variations");
+}
+
+@theme {
+  --color-*: initial;
+
+  --color-neutral-950: #0e121b;
+  --color-neutral-900: #191b25;
+  --color-neutral-800: #232530;
+  --color-neutral-700: #2b303b;
+  --color-neutral-600: #525866;
+  --color-neutral-500: #717784;
+  --color-neutral-400: #99a0ae;
+  --color-neutral-300: #cacfd8;
+  --color-neutral-200: #e0e4ea;
+  --color-neutral-100: #f3f5f8;
+  --color-neutral-50: #f5f7fa;
+  --color-neutral-0: #ffffff;
+
+  --color-blue-700: #2547d0;
+  --color-blue-500: #335cff;
+  --color-blue-50: #ebf1ff;
+
+  --color-green-500: #21c16b;
+  --color-green-100: #d1fbe9;
+
+  --color-red-500: #fb3748;
+  --color-red-100: #ffd5d8;
+
+  --shadow-*: initial;
+  --shadow-sm: 0px 4px 6px 0px hsla(0, 0%, 94%, 0.6);
+  --shadow-lg: 0px 8px 12px 0px hsla(0, 0%, 94%, 0.6);
+
+  --font-inter: "Inter", sans-serif;
+  --font-noto-serif: "Noto Serif", serif;
+  --font-source-code-pro: "Source Code Pro", monospace;
+}
