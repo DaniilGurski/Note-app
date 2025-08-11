@@ -1,22 +1,25 @@
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+import iconInfo from "@assets/images/icon-info.svg";
 import iconLogo from "@assets/images/logo.svg";
+import PasswordInput from "@components/ui/inputs/PasswordInput";
 import PrimaryButton from "@components/ui/buttons/PrimaryButton";
 
-const ForgotPasswordSchema = z.object({
-  email: z.email(),
+const ResetPasswordSchema = z.object({
+  password: z.string().min(8),
+  confirmPassword: z.string().min(8),
 });
 
-type ForgotPasswordFields = z.infer<typeof ForgotPasswordSchema>;
+type ResetPasswordFields = z.infer<typeof ResetPasswordSchema>;
 
-export default function ForgotPasswordForm() {
-  const methods = useForm<ForgotPasswordFields>({
-    resolver: zodResolver(ForgotPasswordSchema),
+export default function ResetPasswordForm() {
+  const methods = useForm<ResetPasswordFields>({
+    resolver: zodResolver(ResetPasswordSchema),
   });
   const { register, handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<ForgotPasswordFields> = (data) => {
+  const onSubmit: SubmitHandler<ResetPasswordFields> = (data) => {
     console.log(data);
   };
   return (
@@ -29,10 +32,10 @@ export default function ForgotPasswordForm() {
 
         <div className="grid gap-y-2">
           <h1 className="text-2xl font-bold text-neutral-950">
-            Forgotten your password?
+            Reset Your Password
           </h1>
           <p className="text-sm">
-            Enter your email below, and we'll send you a link to reset it.
+            Choose a new password to secure your account.
           </p>
         </div>
       </header>
@@ -41,17 +44,26 @@ export default function ForgotPasswordForm() {
         <div className="grid gap-y-4 pt-6">
           <div className="grid gap-y-1.5">
             <label className="text-sm font-medium text-neutral-950">
-              Email Address
+              New Password
             </label>
-            <input
-              className="input-field"
-              type="email"
-              placeholder="email@example.com"
-              {...register("email")}
-            />
+
+            <PasswordInput name="password" />
+
+            <div className="flex items-center gap-x-1 text-xs text-neutral-600">
+              <img src={iconInfo} alt="" />
+              <p> At least 8 characters </p>
+            </div>
           </div>
 
-          <PrimaryButton type="submit"> Send Reset Link </PrimaryButton>
+          <div className="grid gap-y-1.5">
+            <label className="text-sm font-medium text-neutral-950">
+              Confirm New Password
+            </label>
+
+            <PasswordInput name="confirm-password" />
+          </div>
+
+          <PrimaryButton type="submit"> Reset Password </PrimaryButton>
         </div>
       </FormProvider>
     </form>

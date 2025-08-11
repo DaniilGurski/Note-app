@@ -16,31 +16,15 @@ export default function PasswordInput({ name }: PasswordInputProps) {
   };
 
   return (
-    <div>
-      <div className="flex justify-between">
-        <label className="text-sm font-medium text-neutral-950">Password</label>
-        <Link
-          className="text-xs text-neutral-600 underline hover:text-blue-500 focus:text-blue-500"
-          to="/auth/forgot-password"
-        >
-          Forgot
-        </Link>
-      </div>
+    <div className="input-field">
+      <input className="w-full outline-none" type={type} {...register(name)} />
 
-      <div className="input-field">
-        <input
-          className="w-full outline-none"
-          type={type}
-          {...register(name)}
-        />
-
-        <IconButton
-          onClick={handleToggleType}
-          type="button"
-          icon={type === "password" ? iconHidePassword : iconShowPassword}
-          srOnlyLabel={type === "password" ? "show password" : "hide password"}
-        />
-      </div>
+      <IconButton
+        onClick={handleToggleType}
+        type="button"
+        icon={type === "password" ? iconHidePassword : iconShowPassword}
+        srOnlyLabel={type === "password" ? "show password" : "hide password"}
+      />
     </div>
   );
 }

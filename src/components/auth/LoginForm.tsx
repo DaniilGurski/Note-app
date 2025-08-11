@@ -6,7 +6,7 @@ import iconLogo from "@assets/images/logo.svg";
 import iconGoogle from "@assets/images/icon-google.svg";
 import PasswordInput from "@components/ui/inputs/PasswordInput";
 import PrimaryButton from "@components/ui/buttons/PrimaryButton";
-import BorderButton from "../ui/buttons/BorderButton";
+import BorderButton from "@components/ui/buttons/BorderButton";
 
 const LoginFormSchema = z.object({
   email: z.email(),
@@ -33,7 +33,7 @@ export default function LoginForm() {
       <header className="grid justify-center gap-y-4 text-center">
         <img className="mx-auto" src={iconLogo} alt="" />
 
-        <div>
+        <div className="grid gap-y-2">
           <h1 className="text-2xl font-bold text-neutral-950">
             Welcome to Note
           </h1>
@@ -42,7 +42,7 @@ export default function LoginForm() {
       </header>
 
       <FormProvider {...methods}>
-        <div className="grid gap-y-4">
+        <div className="grid gap-y-4 pt-6">
           <div className="grid gap-y-1.5">
             <label className="text-sm font-medium text-neutral-950">
               Email Address
@@ -55,7 +55,20 @@ export default function LoginForm() {
             />
           </div>
 
-          <PasswordInput name="password" />
+          <div className="grid gap-y-1.5">
+            <div className="flex justify-between">
+              <label className="text-sm font-medium text-neutral-950">
+                Password
+              </label>
+              <Link
+                className="text-xs text-neutral-600 underline hover:text-blue-500 focus:text-blue-500"
+                to="/auth/forgot-password"
+              >
+                Forgot
+              </Link>
+            </div>
+            <PasswordInput name="password" />
+          </div>
 
           <PrimaryButton type="submit"> Login </PrimaryButton>
         </div>
