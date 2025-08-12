@@ -1,13 +1,13 @@
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from "react-router";
-import iconLogo from "@assets/images/logo.svg";
-import iconGoogle from "@assets/images/icon-google.svg";
-import iconInfo from "@assets/images/icon-info.svg";
+import { useNavigate } from "react-router";
 import PasswordInput from "@components/ui/inputs/PasswordInput";
 import PrimaryButton from "@components/ui/buttons/PrimaryButton";
-import BorderButton from "@components/ui/buttons/BorderButton";
+import AuthFormHeader from "@components/auth/AuthFormHeader";
+import AuthFormFooter from "@components/auth/AuthFormFooter";
+import supabase from "@/supabaseClient";
+import Hint from "@components/Hint";
 
 const SignUpFormSchema = z.object({
   email: z.email(),
@@ -21,77 +21,61 @@ export default function SignUpForm() {
     resolver: zodResolver(SignUpFormSchema),
   });
   const { register, handleSubmit } = methods;
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<SignUpFormFields> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
+    const { data: authData, error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (error) {
+      return console.error("sign up", error.code);
+    }
+
+    console.log("sign up", authData);
+    navigate("/");
   };
 
   return (
-    <form
-      className="bg-neutral-0 mx-auto grid w-[90%] max-w-2xl gap-y-4 rounded-xl border-2 border-neutral-200 px-4 py-10 text-neutral-600 shadow-lg sm:px-8 sm:py-12 md:px-12"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <header className="grid justify-center gap-y-4 text-center">
-        <img className="mx-auto" src={iconLogo} alt="" />
+    <div className="bg-neutral-0 mx-auto grid w-[90%] max-w-2xl gap-y-4 rounded-xl border-2 border-neutral-200 px-4 py-10 text-neutral-600 shadow-lg sm:px-8 sm:py-12 md:px-12">
+      <form className="grid gap-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <AuthFormHeader
+          heading="Create Your Account"
+          body="Sign up to start organizing your notes and boost your
+              productivity."
+        />
 
-        <div className="grid gap-y-2">
-          <h1 className="text-2xl font-bold text-neutral-950">
-            Create Your Account
-          </h1>
-          <p className="text-sm">
-            Sign up to start organizing your notes and boost your productivity.
-          </p>
-        </div>
-      </header>
-
-      <FormProvider {...methods}>
-        <div className="grid gap-y-4 pt-6">
-          <div className="grid gap-y-1.5">
-            <label className="text-sm font-medium text-neutral-950">
-              Email Address
-            </label>
-            <input
-              className="input-field"
-              type="email"
-              placeholder="email@example.com"
-              {...register("email")}
-            />
-          </div>
-
-          <div className="grid gap-y-1.5">
-            <label className="text-sm font-medium text-neutral-950">
-              Password
-            </label>
-
-            <PasswordInput name="password" />
-
-            <div className="flex items-center gap-x-1 text-xs text-neutral-600">
-              <img src={iconInfo} alt="" />
-              <p> At least 8 characters </p>
+        <FormProvider {...methods}>
+          <div className="grid gap-y-4 pt-6">
+            <div className="grid gap-y-1.5">
+              <label className="text-sm font-medium text-neutral-950">
+                Email Address
+              </label>
+              <input
+                className="input-field"
+                type="email"
+                placeholder="email@example.com"
+                {...register("email")}
+              />
             </div>
+
+            <div className="grid gap-y-1.5">
+              <label className="text-sm font-medium text-neutral-950">
+                Password
+              </label>
+
+              <PasswordInput name="password" />
+
+              <Hint text="At least 8 characters" isError={false} />
+            </div>
+
+            <PrimaryButton type="submit">Sign up</PrimaryButton>
           </div>
+        </FormProvider>
+      </form>
 
-          <PrimaryButton type="submit"> Sign up </PrimaryButton>
-        </div>
-      </FormProvider>
-
-      <div className="grid gap-y-4 border-t-2 border-t-neutral-200 pt-6 text-center">
-        <p className=""> Or log in with: </p>
-        <BorderButton>
-          <img src={iconGoogle} alt="" />
-          <span> Google </span>
-        </BorderButton>
-      </div>
-
-      <p className="flex justify-center gap-x-2 border-t-2 border-t-neutral-200 pt-6">
-        No account yet ?
-        <Link
-          className="text-neutral-950 hover:text-blue-500 focus:text-blue-500"
-          to="/auth/sign-up"
-        >
-          Sign Up
-        </Link>
-      </p>
-    </form>
+      <AuthFormFooter />
+    </div>
   );
 }

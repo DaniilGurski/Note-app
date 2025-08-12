@@ -3,8 +3,15 @@ import AuthPage from "@pages/AuthPage";
 import LoginForm from "@components/auth/LoginForm";
 import SignUpForm from "@components/auth/SignUpForm";
 import ForgotPasswordForm from "@components/auth/ForgotPasswordForm";
+import App from "@/App";
+import ResetPasswordForm from "./components/auth/ResetPasswordForm";
 
 export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+
   {
     path: "/auth",
     element: <AuthPage />,
@@ -12,7 +19,7 @@ export const router = createBrowserRouter([
       { path: "login", element: <LoginForm /> },
       { path: "sign-up", element: <SignUpForm /> },
       { path: "forgot-password", element: <ForgotPasswordForm /> },
-      { path: "reset", element: <ForgotPasswordForm /> },
+      { path: "reset-password", element: <ResetPasswordForm /> },
     ],
   },
 ]);
