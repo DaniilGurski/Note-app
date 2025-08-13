@@ -1,31 +1,41 @@
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 import PrimaryButton from "@components/ui/buttons/PrimaryButton";
 import AuthFormHeader from "@components/auth/AuthFormHeader";
+import Hint from "@components/Hint";
+import TextInput from "@components/ui/inputs/TextInput";
 import supabase from "@/supabaseClient";
 
 const ForgotPasswordSchema = z.object({
-  email: z.email(),
+  email: z.email({ error: "Please enter a valid email address." }),
 });
 
 type ForgotPasswordFields = z.infer<typeof ForgotPasswordSchema>;
 
 export default function ForgotPasswordForm() {
+  const [forgotPasswordError, setForgotPasswordError] = useState("");
+
   const methods = useForm<ForgotPasswordFields>({
     resolver: zodResolver(ForgotPasswordSchema),
   });
-  const { register, handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
   const onSubmit: SubmitHandler<ForgotPasswordFields> = async (data) => {
     const { data: authData, error } = await supabase.auth.resetPasswordForEmail(
       data.email,
       {
+        /* TODO: Add production link */
         redirectTo: "http://localhost:5173/auth/reset-password",
       },
     );
 
     if (error) {
+      setForgotPasswordError(error.message);
       console.error("forgot password", error.code);
     }
 
@@ -44,18 +54,18 @@ export default function ForgotPasswordForm() {
 
       <FormProvider {...methods}>
         <div className="grid gap-y-4 pt-6">
-          <div className="grid gap-y-1.5">
-            <label className="text-sm font-medium text-neutral-950">
-              Email Address
-            </label>
-            <input
-              className="input-field"
-              type="email"
-              placeholder="email@example.com"
-              {...register("email")}
-            />
-          </div>
+          <TextInput
+            label="Email Address"
+            id="email"
+            name="email"
+            hint={{ id: "email-hint", error: errors.email }}
+            type="email"
+            placeholder="email@example.com"
+          />
 
+          {forgotPasswordError && (
+            <Hint id="form-hint" text={forgotPasswordError} isError />
+          )}
           <PrimaryButton type="submit"> Send Reset Link </PrimaryButton>
         </div>
       </FormProvider>

@@ -3,7 +3,11 @@ import BorderButton from "@components/ui/buttons/BorderButton";
 import iconGoogle from "@assets/images/icon-google.svg";
 import supabase from "@/supabaseClient";
 
-export default function AuthFormFooter() {
+type AuthFormFooterProps = {
+  isLoginPage?: boolean;
+};
+
+export default function AuthFormFooter({ isLoginPage }: AuthFormFooterProps) {
   const navigate = useNavigate();
 
   const loginWithGoogle = async () => {
@@ -29,12 +33,13 @@ export default function AuthFormFooter() {
       </div>
 
       <p className="flex justify-center gap-x-2 border-t-2 border-t-neutral-200 pt-6">
-        No account yet ?
+        {isLoginPage ? "No account yet ?" : "Already have an account?"}
+
         <Link
           className="text-neutral-950 hover:text-blue-500 focus:text-blue-500"
-          to="/auth/sign-up"
+          to={isLoginPage ? "/auth/sign-up" : "/auth/login"}
         >
-          Sign Up
+          {isLoginPage ? "Sign Up" : "Login"}
         </Link>
       </p>
     </>

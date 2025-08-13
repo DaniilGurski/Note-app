@@ -64,6 +64,8 @@
 
 @layer components {
   .input-field {
+    --_border-color: var(--border-color, var(--color-neutral-300));
+
     display: flex;
     align-items: center;
 
@@ -84,5 +86,9 @@
     border: 2px solid var(--color-neutral-950);
     outline: 2px solid var(--color-neutral-500);
     outline-offset: 2px;
+  }
+
+  .input-field[data-error="true"] {
+    border: 2px solid var(--color-red-500);
   }
 }

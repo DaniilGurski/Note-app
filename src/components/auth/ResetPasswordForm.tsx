@@ -2,6 +2,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 import PasswordInput from "@components/ui/inputs/PasswordInput";
 import PrimaryButton from "@components/ui/buttons/PrimaryButton";
 import AuthFormHeader from "@components/auth/AuthFormHeader";
@@ -10,21 +11,25 @@ import Hint from "@components/Hint";
 
 const ResetPasswordSchema = z
   .object({
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
+    password: z.string().min(8, { error: "Use minimum 8 characters" }),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    error: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
 type ResetPasswordFields = z.infer<typeof ResetPasswordSchema>;
 
 export default function ResetPasswordForm() {
+  const [resetPasswordError, setResetPasswordError] = useState("");
   const methods = useForm<ResetPasswordFields>({
     resolver: zodResolver(ResetPasswordSchema),
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ResetPasswordFields> = async (data) => {
@@ -33,7 +38,8 @@ export default function ResetPasswordForm() {
     });
 
     if (error) {
-      return console.error("reset password", error);
+      setResetPasswordError(error.message);
+      return console.error("reset password", error.code);
     }
 
     console.log("reset password", authData);
@@ -52,23 +58,30 @@ export default function ResetPasswordForm() {
 
       <FormProvider {...methods}>
         <div className="grid gap-y-4 pt-6">
-          <div className="grid gap-y-1.5">
-            <label className="text-sm font-medium text-neutral-950">
-              New Password
-            </label>
+          <PasswordInput
+            label="Password"
+            id="password"
+            name="password"
+            hint={{
+              id: "password-hint",
+              error: errors.password,
+              message: "At least 8 characters",
+            }}
+          />
 
-            <PasswordInput name="password" />
+          <PasswordInput
+            label="Confirm New Password"
+            id="confirm-password"
+            name="confirmPassword"
+            hint={{
+              id: "confirm-password-hint",
+              error: errors.confirmPassword,
+            }}
+          />
 
-            <Hint text="At least 8 characters" isError={false} />
-          </div>
-
-          <div className="grid gap-y-1.5">
-            <label className="text-sm font-medium text-neutral-950">
-              Confirm New Password
-            </label>
-
-            <PasswordInput name="confirmPassword" />
-          </div>
+          {resetPasswordError && (
+            <Hint id="form-hint" text={resetPasswordError} isError />
+          )}
 
           <PrimaryButton type="submit"> Reset Password </PrimaryButton>
         </div>
