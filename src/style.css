@@ -61,3 +61,34 @@
   --font-noto-serif: "Noto Serif", serif;
   --font-source-code-pro: "Source Code Pro", monospace;
 }
+
+@layer components {
+  .input-field {
+    --_border-color: var(--border-color, var(--color-neutral-300));
+
+    display: flex;
+    align-items: center;
+
+    background: var(--color-neutral-0);
+    color: var(--color-neutral-950);
+
+    padding: --spacing(3) --spacing(4);
+
+    border: 2px solid var(--color-neutral-300);
+    border-radius: var(--radius-lg);
+  }
+
+  .input-field:hover {
+    background: var(--color-neutral-50);
+  }
+
+  .input-field:is(:focus, :focus-within) {
+    border: 2px solid var(--color-neutral-950);
+    outline: 2px solid var(--color-neutral-500);
+    outline-offset: 2px;
+  }
+
+  .input-field[data-error="true"] {
+    border: 2px solid var(--color-red-500);
+  }
+}
