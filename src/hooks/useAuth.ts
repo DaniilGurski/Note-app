@@ -18,7 +18,7 @@ export const useAuth = () => {
     };
 
     checkAuth();
-  }, [isAuth, loading]);
+  }, [isAuth, setIsAuth, loading]);
 
   return [isAuth, loading];
 };

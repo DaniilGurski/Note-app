@@ -92,3 +92,10 @@
     border: 2px solid var(--color-red-500);
   }
 }
+
+@layer base {
+  body {
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-700);
+  }
+}
