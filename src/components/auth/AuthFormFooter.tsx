@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-import BorderButton from "@components/ui/buttons/BorderButton";
+import Button from "@components/ui/buttons/Button";
 import iconGoogle from "@assets/images/icon-google.svg";
 import supabase from "@/supabaseClient";
 
@@ -26,10 +26,10 @@ export default function AuthFormFooter({ isLoginPage }: AuthFormFooterProps) {
     <>
       <div className="grid gap-y-4 border-t-2 border-t-neutral-200 pt-6 text-center">
         <p className=""> Or log in with: </p>
-        <BorderButton onClick={loginWithGoogle}>
+        <Button onClick={loginWithGoogle} variant="border">
           <img src={iconGoogle} alt="" />
           <span> Google </span>
-        </BorderButton>
+        </Button>
       </div>
 
       <p className="flex justify-center gap-x-2 border-t-2 border-t-neutral-200 pt-6">

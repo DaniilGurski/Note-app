@@ -4,7 +4,7 @@ import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import PasswordInput from "@components/ui/inputs/PasswordInput";
-import PrimaryButton from "@components/ui/buttons/PrimaryButton";
+import Button from "@/components/ui/buttons/Button";
 import AuthFormHeader from "@components/auth/AuthFormHeader";
 import supabase from "@/supabaseClient";
 import Hint from "@components/Hint";
@@ -83,7 +83,10 @@ export default function ResetPasswordForm() {
             <Hint id="form-hint" text={resetPasswordError} isError />
           )}
 
-          <PrimaryButton type="submit"> Reset Password </PrimaryButton>
+          <Button type="submit" variant="primary">
+            {" "}
+            Reset Password{" "}
+          </Button>
         </div>
       </FormProvider>
     </form>
