@@ -28,6 +28,8 @@
 }
 
 @theme {
+  --breakpoint-lg: 78rem;
+
   --color-*: initial;
 
   --color-neutral-950: #0e121b;

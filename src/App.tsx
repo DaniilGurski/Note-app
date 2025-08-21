@@ -1,11 +1,16 @@
-import { NavLink, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import NavigationSidebar from "@components/NavigationSidebar";
+import SearchBar from "@components/ui/SearchBar";
+import IconButton from "@components/ui/buttons/IconButton";
+import NoteList from "@components/NoteList";
 import iconLogo from "@assets/images/logo.svg";
 import iconHome from "@assets/images/icon-home.svg";
 import iconSearch from "@assets/images/icon-search.svg";
 import iconArchive from "@assets/images/icon-archive.svg";
 import iconTag from "@assets/images/icon-tag.svg";
 import iconSettings from "@assets/images/icon-settings.svg";
+import { notes } from "@/data";
+
 import clsx from "clsx";
 
 export default function App() {
@@ -14,11 +19,30 @@ export default function App() {
       <NavigationSidebar />
 
       <div className="w-full">
-        <header className="mb-5 bg-neutral-100 px-4 py-3">
-          <img src={iconLogo} alt="" />
+        <header className="flex items-center justify-between border-b-2 border-transparent bg-neutral-100 px-4 py-3 lg:border-neutral-200 lg:bg-transparent lg:px-8 lg:py-4">
+          <img className="block lg:hidden" src={iconLogo} alt="" />
+
+          <h1 className="hidden text-2xl font-bold text-neutral-950 lg:block">
+            Page Name
+          </h1>
+
+          <div className="hidden gap-x-4 lg:flex">
+            <SearchBar />
+            <IconButton icon={iconSettings} srOnlyLabel="Settings" />
+          </div>
         </header>
 
-        <section className="mx-auto h-dvh w-[95%] overflow-y-scroll">
+        <section className="grid h-dvh overflow-y-scroll lg:grid-cols-[max-content_1fr_16.125rem]">
+          <div className="hidden content-start gap-y-4 border-r-2 border-neutral-200 px-8 py-5 lg:grid">
+            <Link
+              className="text-neutral-0 cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-center text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-blue-700 focus:outline-2 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base"
+              to="/notes/create"
+            >
+              + Create New Note
+            </Link>
+            <NoteList notes={notes} />
+          </div>
+
           <Outlet />
         </section>
 

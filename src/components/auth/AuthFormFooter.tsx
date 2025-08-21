@@ -26,7 +26,11 @@ export default function AuthFormFooter({ isLoginPage }: AuthFormFooterProps) {
     <>
       <div className="grid gap-y-4 border-t-2 border-t-neutral-200 pt-6 text-center">
         <p className=""> Or log in with: </p>
-        <Button onClick={loginWithGoogle} variant="border">
+        <Button
+          onClick={loginWithGoogle}
+          variant="border"
+          className="justify-center"
+        >
           <img src={iconGoogle} alt="" />
           <span> Google </span>
         </Button>

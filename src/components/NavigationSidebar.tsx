@@ -15,7 +15,7 @@ const tags = ["Cooking", "Dev", "Fitness"];
 
 export default function NavigationSidebar() {
   return (
-    <div className="hidden min-w-80 content-start gap-y-4 border-r-2 border-neutral-200 px-4 py-3 text-sm font-medium lg:grid">
+    <div className="hidden min-w-72 content-start gap-y-4 border-r-2 border-neutral-200 px-4 py-3 text-sm font-medium lg:grid">
       <header>
         <img src={iconLogo} alt="" />
       </header>
