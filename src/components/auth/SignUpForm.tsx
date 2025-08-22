@@ -4,7 +4,7 @@ import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import PasswordInput from "@components/ui/inputs/PasswordInput";
-import PrimaryButton from "@components/ui/buttons/PrimaryButton";
+import Button from "@/components/ui/buttons/Button";
 import AuthFormHeader from "@components/auth/AuthFormHeader";
 import AuthFormFooter from "@components/auth/AuthFormFooter";
 import TextInput from "@components/ui/inputs/TextInput";
@@ -80,7 +80,9 @@ export default function SignUpForm() {
             />
 
             {signUpError && <Hint id="form-hint" text={signUpError} isError />}
-            <PrimaryButton type="submit">Sign up</PrimaryButton>
+            <Button type="submit" variant="primary">
+              Sign up
+            </Button>
           </div>
         </FormProvider>
       </form>

@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import AuthPage from "@pages/AuthPage";
+import AllNotesPage from "@pages/AllNotesPage";
+import NoteViewPage from "@pages/NoteViewPage";
+import CreateNotePage from "@pages/CreateNotePage";
 import LoginForm from "@components/auth/LoginForm";
 import SignUpForm from "@components/auth/SignUpForm";
 import ForgotPasswordForm from "@components/auth/ForgotPasswordForm";
@@ -16,6 +19,23 @@ export const router = createBrowserRouter([
         <App />
       </PrivateRoute>
     ),
+
+    children: [
+      { index: true, element: <AllNotesPage /> },
+      { path: "archive", element: <h1> Archived Notes </h1> },
+      { path: ":tag", element: <h1> All Notes with this tag </h1> },
+      {
+        path: "/notes",
+        children: [
+          {
+            path: ":id",
+            element: <NoteViewPage />,
+          },
+
+          { path: "create", element: <CreateNotePage /> },
+        ],
+      },
+    ],
   },
 
   {

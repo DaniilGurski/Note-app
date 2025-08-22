@@ -28,6 +28,8 @@
 }
 
 @theme {
+  --breakpoint-lg: 78rem;
+
   --color-*: initial;
 
   --color-neutral-950: #0e121b;
@@ -90,5 +92,12 @@
 
   .input-field[data-error="true"] {
     border: 2px solid var(--color-red-500);
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-700);
   }
 }

@@ -2,7 +2,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import PrimaryButton from "@components/ui/buttons/PrimaryButton";
+import Button from "@/components/ui/buttons/Button";
 import AuthFormHeader from "@components/auth/AuthFormHeader";
 import Hint from "@components/Hint";
 import TextInput from "@components/ui/inputs/TextInput";
@@ -66,7 +66,10 @@ export default function ForgotPasswordForm() {
           {forgotPasswordError && (
             <Hint id="form-hint" text={forgotPasswordError} isError />
           )}
-          <PrimaryButton type="submit"> Send Reset Link </PrimaryButton>
+          <Button type="submit" variant="primary">
+            {" "}
+            Send Reset Link{" "}
+          </Button>
         </div>
       </FormProvider>
     </form>

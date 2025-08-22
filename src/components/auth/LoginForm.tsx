@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import AuthFormHeader from "@components/auth/AuthFormHeader";
 import AuthFormFooter from "@components/auth/AuthFormFooter";
 import PasswordInput from "@components/ui/inputs/PasswordInput";
-import PrimaryButton from "@components/ui/buttons/PrimaryButton";
+import Button from "@/components/ui/buttons/Button";
 import Hint from "@components/Hint";
 import TextInput from "@components/ui/inputs/TextInput";
 import supabase from "@/supabaseClient";
@@ -78,7 +78,9 @@ export default function LoginForm() {
 
             {loginError && <Hint id="form-hint" text={loginError} isError />}
 
-            <PrimaryButton type="submit">Login</PrimaryButton>
+            <Button type="submit" variant="primary">
+              Login
+            </Button>
           </div>
         </FormProvider>
       </form>
