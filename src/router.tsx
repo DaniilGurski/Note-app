@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
         path: "/notes",
         children: [
           {
-            path: ":slug",
+            path: ":id",
             element: <NoteViewPage />,
           },
 

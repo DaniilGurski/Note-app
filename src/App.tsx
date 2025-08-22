@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet } from "react-router";
+import { Link, NavLink, Outlet, useLocation } from "react-router";
 import NavigationSidebar from "@components/NavigationSidebar";
 import SearchBar from "@components/ui/SearchBar";
 import IconButton from "@components/ui/buttons/IconButton";
@@ -9,11 +9,40 @@ import iconSearch from "@assets/images/icon-search.svg";
 import iconArchive from "@assets/images/icon-archive.svg";
 import iconTag from "@assets/images/icon-tag.svg";
 import iconSettings from "@assets/images/icon-settings.svg";
-import { notes } from "@/data";
 
 import clsx from "clsx";
+import { useAtom } from "jotai";
+import { noteListAtom } from "./atoms";
+import { useEffect } from "react";
+import supabase from "@/supabaseClient";
 
 export default function App() {
+  const location = useLocation();
+  const [noteList, setNoteList] = useAtom(noteListAtom);
+
+  // Get user notes on page load
+  // TODO: Use tanstack, add types
+  useEffect(() => {
+    const getUserNotes = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      const { data, error } = await supabase
+        .from("notes")
+        .select("*")
+        .eq("user_id", user?.id);
+
+      if (error) {
+        return console.error(error.message);
+      }
+
+      setNoteList(data);
+    };
+
+    getUserNotes();
+  }, [setNoteList]);
+
   return (
     <main className="relative flex">
       <NavigationSidebar />
@@ -23,7 +52,7 @@ export default function App() {
           <img className="block lg:hidden" src={iconLogo} alt="" />
 
           <h1 className="hidden text-2xl font-bold text-neutral-950 lg:block">
-            Page Name
+            {location.pathname === "/archive" ? "Archived Notes" : "All Notes"}
           </h1>
 
           <div className="hidden gap-x-4 lg:flex">
@@ -32,7 +61,7 @@ export default function App() {
           </div>
         </header>
 
-        <section className="grid h-dvh overflow-y-scroll lg:grid-cols-[max-content_1fr_16.125rem]">
+        <section className="grid h-dvh overflow-y-scroll lg:grid-cols-[18rem_1fr_16.125rem]">
           <div className="hidden content-start gap-y-4 border-r-2 border-neutral-200 px-8 py-5 lg:grid">
             <Link
               className="text-neutral-0 cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-center text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-blue-700 focus:outline-2 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base"
@@ -40,7 +69,9 @@ export default function App() {
             >
               + Create New Note
             </Link>
-            <NoteList notes={notes} />
+
+            {/* TODO: Pass a notes state here (for now it is just a const) */}
+            <NoteList notes={noteList} />
           </div>
 
           <Outlet />

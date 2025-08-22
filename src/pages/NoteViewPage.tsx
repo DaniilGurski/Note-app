@@ -4,14 +4,24 @@ import iconTag from "@assets/images/icon-tag.svg";
 import iconClock from "@assets/images/icon-clock.svg";
 import Button from "@/components/ui/buttons/Button";
 import PageControlHeader from "@/components/PageControlHeader";
+import { useParams } from "react-router";
+import { useAtomValue } from "jotai";
+import { noteListAtom } from "@/atoms";
+import { format } from "date-fns";
 
 export default function NoteViewPage() {
+  const { id } = useParams();
+  const noteList = useAtomValue(noteListAtom);
+  const viewedNote = noteList.find((note) => note.id === id);
+
   return (
     <>
-      <div className="mx-auto flex h-full flex-col content-start gap-y-3 border-r-2 border-neutral-200 px-6 py-5 sm:gap-y-4">
+      <div className="flex h-full flex-col content-start gap-y-3 border-r-2 border-neutral-200 px-6 py-5 sm:gap-y-4">
         <PageControlHeader />
 
-        <h2 className="text-2xl font-bold text-neutral-950">Note Title</h2>
+        <h2 className="text-2xl font-bold text-neutral-950">
+          {viewedNote?.title}
+        </h2>
 
         <ul className="grid gap-y-2 text-xs sm:text-sm">
           <li className="grid grid-cols-[14ch_1fr]">
@@ -20,7 +30,9 @@ export default function NoteViewPage() {
               Tags
             </div>
 
-            <span className="text-neutral-950"> Dev, React </span>
+            <span className="text-neutral-950">
+              {viewedNote?.tags.join(",")}
+            </span>
           </li>
 
           <li className="grid grid-cols-[14ch_1fr]">
@@ -29,21 +41,16 @@ export default function NoteViewPage() {
               Last edited
             </div>
 
-            <span className="text-neutral-950"> 29 Oct 2024 </span>
+            <span className="text-neutral-950">
+              {viewedNote?.last_edited_at &&
+                format(viewedNote.last_edited_at, "dd MMM yyyy")}
+            </span>
           </li>
         </ul>
 
         <span className="h-0.5 bg-neutral-200"> </span>
 
-        <p className="text-sm text-neutral-800">
-          Key performance optimization techniques: 1. Code Splitting - Use
-          React.lazy() for route-based splitting - Implement dynamic imports for
-          heavy components 2. Memoization - useMemo for expensive calculations -
-          useCallback for function props - React.memo for component optimization
-          3. Virtual List Implementation - Use react-window for long lists -
-          Implement infinite scrolling TODO: Benchmark current application and
-          identify bottlenecks
-        </p>
+        <p className="text-sm text-neutral-800">{viewedNote?.content}</p>
 
         <footer className="mt-auto hidden gap-x-4 border-t-2 border-neutral-200 pt-4 lg:flex">
           <Button variant="primary"> Save Note </Button>

@@ -1,51 +1,68 @@
 export const notes: Note[] = [
   {
+    id: "1",
+    user_id: "42",
     title: "React Performance Optimization",
-    slug: "react-performance-optimization",
     tags: ["Dev", "React"],
-    date: "29 Oct 2024",
+    last_edited_at: "29 Oct 2024",
+    content: "",
   },
   {
+    id: "2",
+    user_id: "42",
     title: "Japan Travel Planning",
-    slug: "japan-travel-planning",
     tags: ["Travel", "Personal"],
-    date: "28 Oct 2024",
+    last_edited_at: "28 Oct 2024",
+    content: "",
   },
   {
+    id: "3",
+    user_id: "42",
     title: "Favorite Pasta Recipes",
-    slug: "favorite-pasta-recipes",
     tags: ["Cooking", "Recipes"],
-    date: "27 Oct 2024",
+    last_edited_at: "27 Oct 2024",
+    content: "",
   },
   {
+    id: "4",
+    user_id: "42",
     title: "Weekly Workout Plan",
-    slug: "weekly-workout-plan",
     tags: ["Dev", "React"],
-    date: "25 Oct 2024",
+    last_edited_at: "25 Oct 2024",
+    content: "",
   },
   {
+    id: "5",
+    user_id: "42",
     title: "Meal Prep Ideas",
-    slug: "meal-prep-ideas",
     tags: ["Cooking", "Health", "Recipes"],
-    date: "12 Oct 2024",
+    last_edited_at: "12 Oct 2024",
+    content: "",
   },
   {
+    id: "6",
+    user_id: "42",
     title: "Reading List",
-    slug: "reading-list",
     tags: ["Personal", "Dev"],
-    date: "05 Oct 2024",
+    last_edited_at: "05 Oct 2024",
+    content: "",
   },
   {
+    id: "7",
+    user_id: "42",
     title: "Fitness Goals 2025",
-    slug: "fitness-goals-2025",
     tags: ["Fitness", "Health", "Personal"],
-    date: "22 Sep 2024",
+    last_edited_at: "22 Sep 2024",
+    content: "",
   },
 ];
 
 export type Note = {
+  id: string;
+  last_edited_at: string;
+  user_id: string;
+
   title: string;
-  slug: string;
   tags: string[];
-  date: string;
+  content: string;
 };

@@ -1,18 +1,20 @@
 import { NavLink } from "react-router";
 import { type Note } from "@/data";
 import clsx from "clsx";
+import { format } from "date-fns";
 
 type NoteListProps = {
   notes: Note[];
 };
 
 export default function NoteList({ notes }: NoteListProps) {
+  console.log(typeof notes[0]?.tags);
   return (
     <ul className="grid gap-y-2 divide-y-2 divide-neutral-200">
       {notes.length > 0 ? (
         notes.map((note) => {
           return (
-            <li className="" key={note.slug}>
+            <li className="" key={note.id}>
               <NavLink
                 className={({ isActive }) =>
                   clsx(
@@ -20,14 +22,16 @@ export default function NoteList({ notes }: NoteListProps) {
                     isActive && "border-transparent bg-neutral-100",
                   )
                 }
-                to={`/notes/${note.slug}`}
+                to={`/notes/${note.id}`}
               >
-                <h3 className="font-semibold text-neutral-950">{note.title}</h3>
+                <h3 className="text-base font-semibold text-neutral-950">
+                  {note.title}
+                </h3>
                 <ul className="flex gap-x-1">
                   {note.tags.map((tag) => {
                     return (
                       <li
-                        className="rounded-sm bg-neutral-200 px-1.5 py-0.5 text-neutral-950"
+                        className="rounded-sm bg-neutral-200 px-1.5 py-0.5 text-xs text-neutral-950"
                         key={tag}
                       >
                         {tag}
@@ -35,7 +39,9 @@ export default function NoteList({ notes }: NoteListProps) {
                     );
                   })}
                 </ul>
-                <p> {note.date} </p>
+                <p className="text-xs">
+                  {format(note.last_edited_at, "dd MMM yyyy")}
+                </p>
               </NavLink>
             </li>
           );
