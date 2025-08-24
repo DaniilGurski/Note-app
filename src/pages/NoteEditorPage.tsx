@@ -1,42 +1,44 @@
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import supabase from "@/supabaseClient";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { useAtom } from "jotai";
+import { useNavigate, useParams } from "react-router";
+import { useEffect } from "react";
+import { noteListAtom } from "@/atoms";
 import iconTag from "@assets/images/icon-tag.svg";
 import iconClock from "@assets/images/icon-clock.svg";
 import PageControlHeader from "@/components/PageControlHeader";
 import Button from "@/components/ui/buttons/Button";
-import z from "zod";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import supabase from "@/supabaseClient";
-import { useSetAtom } from "jotai";
-import { noteListAtom } from "@/atoms";
 
-const CreateNoteFormSchema = z.object({
+const noteEditorFormSchema = z.object({
   title: z.string(),
   tags: z.string(),
-  note: z.string(),
+  content: z.string(),
 });
 
-type CreateNoteFormFields = z.infer<typeof CreateNoteFormSchema>;
-
-export default function CreateNotePage() {
-  const { handleSubmit, register } = useForm<CreateNoteFormFields>({
-    resolver: zodResolver(CreateNoteFormSchema),
+type NoteEditorFormFields = z.infer<typeof noteEditorFormSchema>;
+export default function NoteEditorPage() {
+  const { id } = useParams();
+  const { handleSubmit, register, reset } = useForm<NoteEditorFormFields>({
+    resolver: zodResolver(noteEditorFormSchema),
   });
+  const [noteList, setNoteList] = useAtom(noteListAtom);
+  const navigate = useNavigate();
 
-  const setNoteList = useSetAtom(noteListAtom);
-
-  const onSubmit: SubmitHandler<CreateNoteFormFields> = async (data) => {
-    console.log("input data:", data);
-
-    const tags = data.tags.split(",");
+  const onSubmit: SubmitHandler<NoteEditorFormFields> = async (data) => {
+    const editedNote = noteList.find((note) => note.id === id);
+    const tags = data.tags.trim() ? data.tags.split(",") : [];
     const user = await supabase.auth.getUser();
 
     const { data: notes, error } = await supabase
       .from("notes")
       .upsert({
+        id: editedNote?.id,
         user_id: user.data.user?.id,
         title: data.title,
         tags,
-        content: data.note,
+        content: data.content,
       })
       .select();
 
@@ -44,9 +46,42 @@ export default function CreateNotePage() {
       return console.error(error.message);
     }
 
-    console.log("output data:", notes);
-    setNoteList((prev) => [...prev, notes[0]]);
+    // Update or insert note
+    if (editedNote) {
+      setNoteList((prev) => [
+        notes[0],
+        ...prev.filter((note) => note.id !== editedNote.id),
+      ]);
+    } else {
+      setNoteList((prev) => [...prev, notes[0]]);
+    }
+
+    navigate(`/notes/${notes[0].id}`);
   };
+
+  // Clear default values when creating a new note or fill in note values by ID
+  useEffect(() => {
+    if (id === "create-new") {
+      reset({
+        title: "",
+        tags: "",
+        content: "",
+      });
+    } else {
+      const note = noteList.find((note) => note.id === id);
+      if (!note) {
+        // TODO: Create note not found page ?
+        navigate("/notes/create-new");
+        return console.log("No notes found with ID", id);
+      }
+
+      reset({
+        title: note.title,
+        tags: note.tags.join(","),
+        content: note.content,
+      });
+    }
+  }, [id, noteList, reset]);
 
   return (
     <div className="flex flex-col gap-y-3 border-r-2 border-neutral-200 px-6 py-5 sm:gap-y-4">
@@ -55,7 +90,7 @@ export default function CreateNotePage() {
       <form
         className="flex h-full flex-col gap-y-3 sm:gap-y-4"
         onSubmit={handleSubmit(onSubmit)}
-        id="create-note-form"
+        id="note-editor-form"
       >
         <input
           className="text-xl font-bold placeholder:text-neutral-950 sm:text-2xl"
@@ -89,12 +124,12 @@ export default function CreateNotePage() {
         <textarea
           className="h-full w-full resize-none border-t-2 border-neutral-200 pt-3 text-xs placeholder:text-neutral-700 sm:text-sm lg:pt-4"
           placeholder="Start typing your note here…"
-          {...register("note")}
+          {...register("content")}
         />
       </form>
 
       <footer className="mt-auto hidden gap-x-4 border-t-2 border-neutral-200 pt-4 lg:flex">
-        <Button variant="primary" form="create-note-form" type="submit">
+        <Button variant="primary" form="note-editor-form" type="submit">
           Save Note
         </Button>
         <Button variant="secondary"> Cancel </Button>

@@ -65,12 +65,11 @@ export default function App() {
           <div className="hidden content-start gap-y-4 border-r-2 border-neutral-200 px-8 py-5 lg:grid">
             <Link
               className="text-neutral-0 cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-center text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-blue-700 focus:outline-2 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base"
-              to="/notes/create"
+              to="/notes/create-new"
             >
               + Create New Note
             </Link>
 
-            {/* TODO: Pass a notes state here (for now it is just a const) */}
             <NoteList notes={noteList} />
           </div>
 
