@@ -1,4 +1,8 @@
 import { Link, NavLink, Outlet, useLocation } from "react-router";
+import { useAtom } from "jotai";
+import { noteListAtom } from "./atoms";
+import { useEffect } from "react";
+import supabase from "@/supabaseClient";
 import NavigationSidebar from "@components/NavigationSidebar";
 import SearchBar from "@components/ui/SearchBar";
 import IconButton from "@components/ui/buttons/IconButton";
@@ -9,19 +13,13 @@ import iconSearch from "@assets/images/icon-search.svg";
 import iconArchive from "@assets/images/icon-archive.svg";
 import iconTag from "@assets/images/icon-tag.svg";
 import iconSettings from "@assets/images/icon-settings.svg";
-
 import clsx from "clsx";
-import { useAtom } from "jotai";
-import { noteListAtom } from "./atoms";
-import { useEffect } from "react";
-import supabase from "@/supabaseClient";
 
 export default function App() {
   const location = useLocation();
   const [noteList, setNoteList] = useAtom(noteListAtom);
 
   // Get user notes on page load
-  // TODO: Use tanstack, add types
   useEffect(() => {
     const getUserNotes = async () => {
       const {

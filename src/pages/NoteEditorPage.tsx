@@ -1,7 +1,7 @@
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import supabase from "@/supabaseClient";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { useAtom } from "jotai";
 import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
@@ -17,12 +17,14 @@ const noteEditorFormSchema = z.object({
   content: z.string(),
 });
 
-type NoteEditorFormFields = z.infer<typeof noteEditorFormSchema>;
+export type NoteEditorFormFields = z.infer<typeof noteEditorFormSchema>;
+
 export default function NoteEditorPage() {
   const { id } = useParams();
-  const { handleSubmit, register, reset } = useForm<NoteEditorFormFields>({
+  const methods = useForm<NoteEditorFormFields>({
     resolver: zodResolver(noteEditorFormSchema),
   });
+  const { handleSubmit, register, reset } = methods;
   const [noteList, setNoteList] = useAtom(noteListAtom);
   const navigate = useNavigate();
 
@@ -81,11 +83,13 @@ export default function NoteEditorPage() {
         content: note.content,
       });
     }
-  }, [id, noteList, reset]);
+  }, [id, noteList, reset, navigate]);
 
   return (
     <div className="flex flex-col gap-y-3 border-r-2 border-neutral-200 px-6 py-5 sm:gap-y-4">
-      <PageControlHeader />
+      <FormProvider {...methods}>
+        <PageControlHeader onSaveNote={onSubmit} />
+      </FormProvider>
 
       <form
         className="flex h-full flex-col gap-y-3 sm:gap-y-4"
