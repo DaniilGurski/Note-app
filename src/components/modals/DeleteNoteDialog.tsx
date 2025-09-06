@@ -1,11 +1,10 @@
 import Button from "@components/ui/buttons/Button";
 import iconDelete from "@assets/images/icon-delete.svg";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { deleteDialogOpenedAtom, noteListAtom } from "@/atoms";
 import clsx from "clsx";
 import supabase from "@/supabaseClient";
 import { useNavigate, useParams } from "react-router";
-import { useEffect } from "react";
 
 export default function DeleteNoteDialog() {
   const [deleteDialogOpened, setDeleteDialogOpened] = useAtom(
@@ -26,6 +25,7 @@ export default function DeleteNoteDialog() {
       console.error(error.code);
     }
 
+    console.log(data);
     setNoteList((prev) => prev.filter((note) => note.id !== id));
     navigate("/create-new");
     setDeleteDialogOpened(false);
