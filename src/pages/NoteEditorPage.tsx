@@ -136,7 +136,9 @@ export default function NoteEditorPage() {
         <Button variant="primary" form="note-editor-form" type="submit">
           Save Note
         </Button>
-        <Button variant="secondary"> Cancel </Button>
+        <Button variant="secondary" type="button" onClick={() => navigate("/")}>
+          Cancel
+        </Button>
       </footer>
     </div>
   );

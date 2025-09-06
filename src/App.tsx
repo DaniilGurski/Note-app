@@ -1,23 +1,28 @@
-import { Link, NavLink, Outlet, useLocation } from "react-router";
-import { useAtom } from "jotai";
-import { noteListAtom } from "./atoms";
+import { Link, NavLink, Outlet, useLocation, useParams } from "react-router";
+import { useAtom, useSetAtom } from "jotai";
+import { deleteDialogOpenedAtom, noteListAtom } from "./atoms";
 import { useEffect } from "react";
 import supabase from "@/supabaseClient";
 import NavigationSidebar from "@components/NavigationSidebar";
 import SearchBar from "@components/ui/SearchBar";
 import IconButton from "@components/ui/buttons/IconButton";
 import NoteList from "@components/NoteList";
+import Button from "@components/ui/buttons/Button";
+import DeleteNoteDialog from "@components/modals/DeleteNoteDialog";
 import iconLogo from "@assets/images/logo.svg";
 import iconHome from "@assets/images/icon-home.svg";
 import iconSearch from "@assets/images/icon-search.svg";
 import iconArchive from "@assets/images/icon-archive.svg";
 import iconTag from "@assets/images/icon-tag.svg";
 import iconSettings from "@assets/images/icon-settings.svg";
+import iconDelete from "@assets/images/icon-delete.svg";
 import clsx from "clsx";
 
 export default function App() {
   const location = useLocation();
   const [noteList, setNoteList] = useAtom(noteListAtom);
+  const setDeleteDialogOpened = useSetAtom(deleteDialogOpenedAtom);
+  const { id } = useParams();
 
   // Get user notes on page load
   useEffect(() => {
@@ -72,6 +77,27 @@ export default function App() {
           </div>
 
           <Outlet />
+
+          {id !== "create-new" && (
+            <ul className="hidden content-start gap-y-3 px-4 py-5 lg:grid">
+              <li>
+                <Button variant="border" className="w-full">
+                  <img src={iconArchive} alt="" />
+                  Archive Note
+                </Button>
+              </li>
+              <li>
+                <Button
+                  variant="border"
+                  className="w-full"
+                  onClick={() => setDeleteDialogOpened(true)}
+                >
+                  <img src={iconDelete} alt="" />
+                  Delete Note
+                </Button>
+              </li>
+            </ul>
+          )}
         </section>
 
         <footer className="bg-neutral-0 fixed right-0 bottom-0 left-0 px-4 py-4 shadow-[0_-4px_6px_rgba(240,240,240,0.60)] lg:hidden">
@@ -126,6 +152,8 @@ export default function App() {
           </nav>
         </footer>
       </div>
+
+      <DeleteNoteDialog />
     </main>
   );
 }
