@@ -21,14 +21,14 @@ export const router = createBrowserRouter([
 
     children: [
       { index: true, element: <AllNotesPage /> },
-      { path: "archive", element: <h1> Archived Notes </h1> },
-      { path: ":tag", element: <h1> All Notes with this tag </h1> },
+      {
+        path: "archive",
+        element: <h1> Archived Notes </h1>,
+        children: [{ path: ":id", element: <NoteEditorPage /> }],
+      },
       {
         path: "notes",
-        children: [
-          { path: ":id", element: <NoteEditorPage /> },
-          // { path: "create-new", element: <NoteEditorPage /> },
-        ],
+        children: [{ path: ":id", element: <NoteEditorPage /> }],
       },
     ],
   },

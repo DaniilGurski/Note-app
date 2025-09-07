@@ -1,6 +1,10 @@
 import { Link, NavLink, Outlet, useLocation, useParams } from "react-router";
 import { useAtom, useSetAtom } from "jotai";
-import { deleteDialogOpenedAtom, noteListAtom } from "./atoms";
+import {
+  archvieDialogOpenedAtom,
+  deleteDialogOpenedAtom,
+  noteListAtom,
+} from "@/atoms";
 import { useEffect } from "react";
 import supabase from "@/supabaseClient";
 import NavigationSidebar from "@components/NavigationSidebar";
@@ -9,6 +13,7 @@ import IconButton from "@components/ui/buttons/IconButton";
 import NoteList from "@components/NoteList";
 import Button from "@components/ui/buttons/Button";
 import DeleteNoteDialog from "@components/modals/DeleteNoteDialog";
+import ArchiveNoteDialog from "@components/modals/ArchiveNoteDialog";
 import iconLogo from "@assets/images/logo.svg";
 import iconHome from "@assets/images/icon-home.svg";
 import iconSearch from "@assets/images/icon-search.svg";
@@ -16,12 +21,14 @@ import iconArchive from "@assets/images/icon-archive.svg";
 import iconTag from "@assets/images/icon-tag.svg";
 import iconSettings from "@assets/images/icon-settings.svg";
 import iconDelete from "@assets/images/icon-delete.svg";
+import { Toaster } from "react-hot-toast";
 import clsx from "clsx";
 
 export default function App() {
   const location = useLocation();
   const [noteList, setNoteList] = useAtom(noteListAtom);
   const setDeleteDialogOpened = useSetAtom(deleteDialogOpenedAtom);
+  const setArchivedDialogOpened = useSetAtom(archvieDialogOpenedAtom);
   const { id } = useParams();
 
   // Get user notes on page load
@@ -45,6 +52,10 @@ export default function App() {
 
     getUserNotes();
   }, [setNoteList]);
+
+  useEffect(() => {
+    console.log(noteList);
+  }, [noteList]);
 
   return (
     <main className="relative flex">
@@ -73,15 +84,19 @@ export default function App() {
               + Create New Note
             </Link>
 
-            <NoteList notes={noteList} />
+            <NoteList notes={noteList.filter((note) => !note.archived)} />
           </div>
 
           <Outlet />
 
-          {id !== "create-new" && (
+          {id && id !== "create-new" && (
             <ul className="hidden content-start gap-y-3 px-4 py-5 lg:grid">
               <li>
-                <Button variant="border" className="w-full">
+                <Button
+                  variant="border"
+                  className="w-full"
+                  onClick={() => setArchivedDialogOpened(true)}
+                >
                   <img src={iconArchive} alt="" />
                   Archive Note
                 </Button>
@@ -154,6 +169,9 @@ export default function App() {
       </div>
 
       <DeleteNoteDialog />
+      <ArchiveNoteDialog />
+
+      <Toaster />
     </main>
   );
 }

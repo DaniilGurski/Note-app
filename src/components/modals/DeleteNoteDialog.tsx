@@ -34,7 +34,7 @@ export default function DeleteNoteDialog() {
   return (
     <div
       className={clsx(
-        "absolute inset-0 z-10 h-dvh place-items-center bg-neutral-950/50",
+        "absolute inset-0 z-10 h-full place-items-center bg-neutral-950/50",
         deleteDialogOpened ? "grid" : "hidden",
       )}
       onClick={(e) => {

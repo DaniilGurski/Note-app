@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router";
 import { useFormContext, type SubmitHandler } from "react-hook-form";
 import type { NoteEditorFormFields } from "@/pages/NoteEditorPage";
 import { useSetAtom } from "jotai";
-import { deleteDialogOpenedAtom } from "@/atoms";
+import { archvieDialogOpenedAtom, deleteDialogOpenedAtom } from "@/atoms";
 
 type PageControlHeaderProps = {
   onSaveNote: SubmitHandler<NoteEditorFormFields>;
@@ -18,6 +18,7 @@ export default function PageControlHeader({
   const navigate = useNavigate();
   const { handleSubmit } = useFormContext<NoteEditorFormFields>();
   const setDeleteDialogOpened = useSetAtom(deleteDialogOpenedAtom);
+  const setArchiveDialogOpened = useSetAtom(archvieDialogOpenedAtom);
   const { id } = useParams();
 
   return (
@@ -48,6 +49,7 @@ export default function PageControlHeader({
               icon={iconArchive}
               srOnlyLabel="Archive this note"
               iconClassName="size-5"
+              onClick={() => setArchiveDialogOpened(true)}
             />
           </>
         )}
