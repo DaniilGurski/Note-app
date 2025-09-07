@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router";
+import { NavLink } from "react-router";
 import { type Note } from "@/data";
 import clsx from "clsx";
 import { format } from "date-fns";
