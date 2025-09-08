@@ -4,9 +4,9 @@ import { archvieDialogOpenedAtom, noteListAtom } from "@/atoms";
 import clsx from "clsx";
 import supabase from "@/supabaseClient";
 import { useNavigate, useParams } from "react-router";
-import ArchiveToast from "@components/ArchiveToast";
 import iconArchive from "@assets/images/icon-archive.svg";
 import toast from "react-hot-toast";
+import CustomToast from "@/components/CustomToast";
 
 export default function ArchiveNoteDialog() {
   const [archiveDialogOpened, setArchiveDialogOpened] = useAtom(
@@ -17,7 +17,7 @@ export default function ArchiveNoteDialog() {
   const navigate = useNavigate();
 
   const handleArchive = async () => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("notes")
       .update({ archived: true })
       .eq("id", id)
@@ -27,7 +27,6 @@ export default function ArchiveNoteDialog() {
       console.error(error.code);
     }
 
-    console.log(data);
     setNoteList((prev) =>
       prev.map((note) => {
         if (note.id === id) {
@@ -41,15 +40,25 @@ export default function ArchiveNoteDialog() {
     setArchiveDialogOpened(false);
     navigate("/notes/create-new");
 
-    toast((t) => <ArchiveToast toastId={t.id} />, {
-      position: "bottom-right",
-      // duration: 10000000000,
+    toast(
+      (t) => (
+        <CustomToast
+          toastId={t.id}
+          text="Note Archived."
+          linkText="Archived Notes"
+          linkTo="/archive"
+        />
+      ),
+      {
+        position: "bottom-right",
+        // duration: 10000000000,
 
-      style: {
-        width: "90%",
-        maxWidth: "24.375rem",
+        style: {
+          width: "90%",
+          maxWidth: "24.375rem",
+        },
       },
-    });
+    );
   };
 
   return (

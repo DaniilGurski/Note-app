@@ -4,19 +4,27 @@ import IconButton from "@components/ui/buttons/IconButton";
 import iconCross from "@assets/images/icon-cross.svg";
 import toast from "react-hot-toast";
 
-type ArchiveToastProps = {
+type CustomToastProps = {
   toastId: string;
+  text: string;
+  linkText: string;
+  linkTo: string;
 };
-export default function ArchiveToast({ toastId }: ArchiveToastProps) {
+export default function CustomToast({
+  toastId,
+  text,
+  linkText,
+  linkTo,
+}: CustomToastProps) {
   return (
     <div className="flex w-full items-center justify-between">
       <div className="flex items-center gap-x-2">
-        <img src={iconCheckmark} alt="" /> Note Archived.
+        <img src={iconCheckmark} alt="" /> {text}
       </div>
 
       <div className="flex items-center gap-x-2">
-        <Link className="text-neutral-950 underline" to="/archive">
-          Archived Notes
+        <Link className="text-neutral-950 underline" to={linkTo}>
+          {linkText}
         </Link>
         <IconButton
           icon={iconCross}

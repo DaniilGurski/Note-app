@@ -74,7 +74,7 @@ export default function DeleteNoteDialog() {
           </Button>
           <Button
             variant="primary"
-            className="bg-red-500"
+            className="bg-red-500 hover:bg-red-500/80"
             onClick={handleDelete}
           >
             Delete Note

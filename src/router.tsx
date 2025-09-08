@@ -9,6 +9,9 @@ import ResetPasswordForm from "@components/auth/ResetPasswordForm";
 import PrivateRoute from "@/components/PrivateRoute";
 import GuestRoute from "@/components/GuestRoute";
 import App from "@/App";
+import AllNotesPageDesktop from "@/pages/AllNotesPageDesktop";
+import ArchivedNotesPageDesktop from "@/pages/ArchivedNotesPageDesktop";
+import ArchivedNotesPage from "@/pages/ArchivedNotesPage";
 
 export const router = createBrowserRouter([
   {
@@ -20,15 +23,38 @@ export const router = createBrowserRouter([
     ),
 
     children: [
-      { index: true, element: <AllNotesPage /> },
       {
-        path: "archive",
-        element: <h1> Archived Notes </h1>,
-        children: [{ path: ":id", element: <NoteEditorPage /> }],
+        element: <AllNotesPageDesktop />,
+        children: [
+          {
+            index: true,
+            element: <AllNotesPage />,
+          },
+
+          {
+            path: "notes/:id",
+            element: <NoteEditorPage />,
+            // children: [{ path: ":id", element: <NoteEditorPage /> }],
+          },
+        ],
       },
+
       {
-        path: "notes",
-        children: [{ path: ":id", element: <NoteEditorPage /> }],
+        path: "/archive",
+        element: <ArchivedNotesPageDesktop />,
+
+        children: [
+          {
+            index: true,
+            element: <ArchivedNotesPage />,
+          },
+
+          {
+            path: "notes/:id",
+            element: <NoteEditorPage />,
+            // children: [{ path: ":id", element: <NoteEditorPage /> }],
+          },
+        ],
       },
     ],
   },

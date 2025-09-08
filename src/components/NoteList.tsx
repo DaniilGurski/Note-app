@@ -1,13 +1,14 @@
 import { NavLink } from "react-router";
 import { type Note } from "@/data";
-import clsx from "clsx";
 import { format } from "date-fns";
+import clsx from "clsx";
 
 type NoteListProps = {
   notes: Note[];
+  emptyStateElement: React.ReactNode;
 };
 
-export default function NoteList({ notes }: NoteListProps) {
+export default function NoteList({ notes, emptyStateElement }: NoteListProps) {
   return (
     <ul className="grid gap-y-2 divide-y-2 divide-neutral-200">
       {notes.length > 0 ? (
@@ -21,7 +22,7 @@ export default function NoteList({ notes }: NoteListProps) {
                     isActive && "border-transparent bg-neutral-100",
                   )
                 }
-                to={`/notes/${note.id}`}
+                to={`notes/${note.id}`}
               >
                 <h3 className="text-base font-semibold text-neutral-950">
                   {note.title}
@@ -49,10 +50,7 @@ export default function NoteList({ notes }: NoteListProps) {
         })
       ) : (
         <div className="grid gap-y-4">
-          <p className="rounded-lg border-2 border-neutral-200 bg-neutral-100 p-2 text-sm text-neutral-950">
-            You don't have any notes yet. Start a new note to capture your
-            thoughts and ideas.
-          </p>
+          {emptyStateElement}
 
           <span className="hidden h-0.5 w-full rounded-3xl bg-neutral-200 md:inline-block lg:hidden"></span>
         </div>

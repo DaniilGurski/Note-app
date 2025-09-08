@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import supabase from "@/supabaseClient";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { useAtom } from "jotai";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import { noteListAtom } from "@/atoms";
 import iconTag from "@assets/images/icon-tag.svg";
@@ -21,6 +21,7 @@ export type NoteEditorFormFields = z.infer<typeof noteEditorFormSchema>;
 
 export default function NoteEditorPage() {
   const { id } = useParams();
+  const location = useLocation();
   const methods = useForm<NoteEditorFormFields>({
     resolver: zodResolver(noteEditorFormSchema),
   });
@@ -38,6 +39,7 @@ export default function NoteEditorPage() {
       .upsert({
         id: editedNote?.id,
         user_id: user.data.user?.id,
+        archived: location.pathname === "/archive/notes/create-new",
         title: data.title,
         tags,
         content: data.content,
@@ -58,7 +60,11 @@ export default function NoteEditorPage() {
       setNoteList((prev) => [...prev, notes[0]]);
     }
 
-    navigate(`/notes/${notes[0].id}`);
+    navigate(
+      location.pathname === "/archive/notes/create-new"
+        ? `/archive/notes/${notes[0].id}`
+        : `/notes/${notes[0].id}`,
+    );
   };
 
   // Clear default values when creating a new note or fill in note values by ID
