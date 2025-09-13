@@ -67,8 +67,7 @@ export default function ForgotPasswordForm() {
             <Hint id="form-hint" text={forgotPasswordError} isError />
           )}
           <Button type="submit" variant="primary">
-            {" "}
-            Send Reset Link{" "}
+            Send Reset Link
           </Button>
         </div>
       </FormProvider>

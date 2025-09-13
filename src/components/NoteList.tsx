@@ -5,13 +5,15 @@ import clsx from "clsx";
 
 type NoteListProps = {
   notes: Note[];
-  emptyStateElement: React.ReactNode;
+  emptyStateText: string;
 };
 
-export default function NoteList({ notes, emptyStateElement }: NoteListProps) {
+export default function NoteList({ notes, emptyStateText }: NoteListProps) {
+  const somethingSearched = false;
+
   return (
     <ul className="grid gap-y-2 divide-y-2 divide-neutral-200">
-      {notes.length > 0 ? (
+      {notes.length > 0 &&
         notes.map((note) => {
           return (
             <li className="" key={note.id}>
@@ -22,7 +24,7 @@ export default function NoteList({ notes, emptyStateElement }: NoteListProps) {
                     isActive && "border-transparent bg-neutral-100",
                   )
                 }
-                to={`notes/${note.id}`}
+                to={`${note.id}`}
               >
                 <h3 className="text-base font-semibold text-neutral-950">
                   {note.title}
@@ -47,12 +49,13 @@ export default function NoteList({ notes, emptyStateElement }: NoteListProps) {
               </NavLink>
             </li>
           );
-        })
-      ) : (
-        <div className="grid gap-y-4">
-          {emptyStateElement}
+        })}
 
-          <span className="hidden h-0.5 w-full rounded-3xl bg-neutral-200 md:inline-block lg:hidden"></span>
+      {!notes.length && (
+        <div className="rounded-lg border-2 border-neutral-200 bg-neutral-100 p-2">
+          {somethingSearched
+            ? "No notes match your search. Try a different keyword or create a new note."
+            : emptyStateText}
         </div>
       )}
     </ul>

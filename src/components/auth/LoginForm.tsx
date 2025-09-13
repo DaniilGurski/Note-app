@@ -42,7 +42,7 @@ export default function LoginForm() {
     }
 
     console.log("login", authData);
-    navigate("/");
+    navigate("/notes");
   };
 
   return (
