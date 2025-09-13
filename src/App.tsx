@@ -41,11 +41,12 @@ export default function App() {
     <main className="relative flex">
       <NavigationSidebar />
 
-      <Outlet />
+      <div className="flex h-dvh flex-1 flex-col">
+        <Outlet />
+      </div>
 
       <DeleteNoteDialog />
       <ArchiveNoteDialog />
-
       <Toaster />
     </main>
   );

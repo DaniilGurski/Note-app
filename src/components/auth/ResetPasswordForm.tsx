@@ -84,8 +84,7 @@ export default function ResetPasswordForm() {
           )}
 
           <Button type="submit" variant="primary">
-            {" "}
-            Reset Password{" "}
+            Reset Password
           </Button>
         </div>
       </FormProvider>

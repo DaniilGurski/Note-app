@@ -23,7 +23,7 @@ export default function NavigationSidebar() {
       <div className="grid gap-y-2 divide-y-2 divide-neutral-200">
         <nav className="pb-2">
           <ul>
-            <NavigationLink href="/">
+            <NavigationLink href="/notes">
               <img src={iconHome} /> All Notes
             </NavigationLink>
 
@@ -35,7 +35,7 @@ export default function NavigationSidebar() {
         <div className="grid gap-y-2">
           <h4 className="text-neutral-500">Tags</h4>
 
-          <ul className="max-h-96 overflow-y-scroll">
+          {/* <ul className="max-h-96 overflow-y-scroll">
             {tags.map((tag) => {
               return (
                 <NavigationLink href={`/:${tag.toLowerCase()}`} key={tag}>
@@ -44,7 +44,7 @@ export default function NavigationSidebar() {
                 </NavigationLink>
               );
             })}
-          </ul>
+          </ul> */}
         </div>
       </div>
     </div>

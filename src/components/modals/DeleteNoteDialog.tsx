@@ -15,7 +15,7 @@ export default function DeleteNoteDialog() {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("notes")
       .delete()
       .eq("id", id)
@@ -25,9 +25,8 @@ export default function DeleteNoteDialog() {
       console.error(error.code);
     }
 
-    console.log(data);
+    navigate("/notes");
     setNoteList((prev) => prev.filter((note) => note.id !== id));
-    navigate("/create-new");
     setDeleteDialogOpened(false);
   };
 

@@ -42,7 +42,7 @@ export default function SignUpForm() {
     }
 
     console.log("sign up", authData);
-    navigate("/");
+    navigate("/notes");
   };
 
   return (

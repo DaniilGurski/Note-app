@@ -19,7 +19,7 @@ export default function AuthFormFooter({ isLoginPage }: AuthFormFooterProps) {
     }
 
     console.log(data);
-    navigate("/");
+    navigate("/notes");
   };
 
   return (

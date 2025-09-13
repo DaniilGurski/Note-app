@@ -1,7 +1,5 @@
 import { createBrowserRouter } from "react-router";
 import AuthPage from "@pages/AuthPage";
-import AllNotesPage from "@pages/AllNotesPage";
-import NoteEditorPage from "@/pages/NoteEditorPage";
 import LoginForm from "@components/auth/LoginForm";
 import SignUpForm from "@components/auth/SignUpForm";
 import ForgotPasswordForm from "@components/auth/ForgotPasswordForm";
@@ -9,9 +7,9 @@ import ResetPasswordForm from "@components/auth/ResetPasswordForm";
 import PrivateRoute from "@/components/PrivateRoute";
 import GuestRoute from "@/components/GuestRoute";
 import App from "@/App";
-import AllNotesPageDesktop from "@/pages/AllNotesPageDesktop";
-import ArchivedNotesPageDesktop from "@/pages/ArchivedNotesPageDesktop";
-import ArchivedNotesPage from "@/pages/ArchivedNotesPage";
+import AllNotesPage from "@pages/AllNotesPage";
+import NoteEditorPage from "@pages/NoteEditorPage";
+import ArchivedNotesPage from "@pages/ArchivedNotesPage";
 
 export const router = createBrowserRouter([
   {
@@ -24,35 +22,33 @@ export const router = createBrowserRouter([
 
     children: [
       {
-        element: <AllNotesPageDesktop />,
+        path: "/notes",
+        element: <AllNotesPage />,
         children: [
           {
-            index: true,
-            element: <AllNotesPage />,
+            path: ":id",
+            element: <NoteEditorPage />,
           },
 
           {
-            path: "notes/:id",
-            element: <NoteEditorPage />,
-            // children: [{ path: ":id", element: <NoteEditorPage /> }],
+            path: "*",
+            element: <h1> Note not found </h1>,
           },
         ],
       },
 
       {
         path: "/archive",
-        element: <ArchivedNotesPageDesktop />,
-
+        element: <ArchivedNotesPage />,
         children: [
           {
-            index: true,
-            element: <ArchivedNotesPage />,
+            path: ":id",
+            element: <NoteEditorPage />,
           },
 
           {
-            path: "notes/:id",
-            element: <NoteEditorPage />,
-            // children: [{ path: ":id", element: <NoteEditorPage /> }],
+            path: "*",
+            element: <h1> Note not found </h1>,
           },
         ],
       },
