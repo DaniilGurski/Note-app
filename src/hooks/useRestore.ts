@@ -1,13 +1,16 @@
 import supabase from "@/supabaseClient";
-import { useSetAtom } from "jotai";
-import { noteListAtom } from "@/atoms";
+import { useAtomValue, useSetAtom } from "jotai";
+import { noteListAtom, searchTermAtom } from "@/atoms";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { useCallback } from "react";
 import CustomToast from "@/components/CustomToast";
+import { usePathname } from "./usePathname";
 
 export const useRestore = () => {
   const setNoteList = useSetAtom(noteListAtom);
+  const searchTerm = useAtomValue(searchTermAtom);
+  const { base } = usePathname();
   const navigate = useNavigate();
 
   const restore = useCallback(
@@ -21,7 +24,7 @@ export const useRestore = () => {
         console.error(error.code);
       }
 
-      navigate("/archive");
+      navigate(base === "/search" ? `${base}?term=${searchTerm}` : base);
 
       setNoteList((prev) =>
         prev.map((note) => {

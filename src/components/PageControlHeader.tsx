@@ -11,8 +11,10 @@ import {
   archvieDialogOpenedAtom,
   deleteDialogOpenedAtom,
   noteListAtom,
+  searchTermAtom,
 } from "@/atoms";
 import { useRestore } from "@/hooks/useRestore";
+import { usePathname } from "@/hooks/usePathname";
 
 type PageControlHeaderProps = {
   onSaveNote: SubmitHandler<NoteEditorFormFields>;
@@ -21,13 +23,15 @@ type PageControlHeaderProps = {
 export default function PageControlHeader({
   onSaveNote,
 }: PageControlHeaderProps) {
-  const restore = useRestore();
-  const navigate = useNavigate();
   const { handleSubmit } = useFormContext<NoteEditorFormFields>();
   const setDeleteDialogOpened = useSetAtom(deleteDialogOpenedAtom);
   const setArchiveDialogOpened = useSetAtom(archvieDialogOpenedAtom);
-  const { id } = useParams();
   const noteList = useAtomValue(noteListAtom);
+  const searchTerm = useAtomValue(searchTermAtom);
+  const { id } = useParams();
+  const { base } = usePathname();
+  const restore = useRestore();
+  const navigate = useNavigate();
   const note = noteList.find((note) => note.id === id);
 
   return (
@@ -76,14 +80,15 @@ export default function PageControlHeader({
             )}
           </>
         )}
-        <button type="button" onClick={() => navigate(-1)}>
+        <button
+          type="button"
+          onClick={() => {
+            navigate(base === "/search" ? `${base}?term=${searchTerm}` : base);
+          }}
+        >
           Cancel
         </button>
-        <button
-          className="text-blue-500"
-          type="submit"
-          onClick={() => console.log("save note btn clicked")}
-        >
+        <button className="text-blue-500" type="submit">
           Save Note
         </button>
       </form>

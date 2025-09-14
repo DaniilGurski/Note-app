@@ -4,7 +4,9 @@ import { useAtom, useSetAtom } from "jotai";
 import { deleteDialogOpenedAtom, noteListAtom } from "@/atoms";
 import clsx from "clsx";
 import supabase from "@/supabaseClient";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
+import toast from "react-hot-toast";
+import { usePathname } from "@/hooks/usePathname";
 
 export default function DeleteNoteDialog() {
   const [deleteDialogOpened, setDeleteDialogOpened] = useAtom(
@@ -13,8 +15,11 @@ export default function DeleteNoteDialog() {
   const { id } = useParams();
   const setNoteList = useSetAtom(noteListAtom);
   const navigate = useNavigate();
+  const { base } = usePathname();
 
   const handleDelete = async () => {
+    navigate(`${base}/create-new`);
+
     const { error } = await supabase
       .from("notes")
       .delete()
@@ -23,9 +28,9 @@ export default function DeleteNoteDialog() {
 
     if (error) {
       console.error(error.code);
+      toast.error(error.code);
     }
 
-    navigate("/notes");
     setNoteList((prev) => prev.filter((note) => note.id !== id));
     setDeleteDialogOpened(false);
   };
@@ -55,7 +60,7 @@ export default function DeleteNoteDialog() {
             alt=""
           />
           <div className="grid gap-y-1.5">
-            <h2 className="font-semibold text-neutral-950">Delete Note </h2>
+            <h2 className="font-semibold text-neutral-950"> Delete Note </h2>
             <p className="text-sm text-neutral-700">
               Are you sure you want to permanently delete this note? This action
               cannot be undone.
@@ -73,6 +78,7 @@ export default function DeleteNoteDialog() {
           </Button>
           <Button
             variant="primary"
+            type="button"
             className="bg-red-500 hover:bg-red-500/80"
             onClick={handleDelete}
           >

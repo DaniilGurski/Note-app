@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router";
 import iconArchive from "@assets/images/icon-archive.svg";
 import toast from "react-hot-toast";
 import CustomToast from "@/components/CustomToast";
+import { usePathname } from "@/hooks/usePathname";
 
 export default function ArchiveNoteDialog() {
   const [archiveDialogOpened, setArchiveDialogOpened] = useAtom(
@@ -15,6 +16,7 @@ export default function ArchiveNoteDialog() {
   const { id } = useParams();
   const setNoteList = useSetAtom(noteListAtom);
   const navigate = useNavigate();
+  const { base } = usePathname();
 
   const handleArchive = async () => {
     const { error } = await supabase
@@ -25,6 +27,7 @@ export default function ArchiveNoteDialog() {
 
     if (error) {
       console.error(error.code);
+      toast.error(error.code);
     }
 
     setNoteList((prev) =>
@@ -37,8 +40,8 @@ export default function ArchiveNoteDialog() {
       }),
     );
 
+    navigate(`${base}/create-new`);
     setArchiveDialogOpened(false);
-    navigate("/notes/create-new");
 
     toast(
       (t) => (

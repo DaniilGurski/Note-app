@@ -10,6 +10,7 @@ import App from "@/App";
 import AllNotesPage from "@pages/AllNotesPage";
 import NoteEditorPage from "@pages/NoteEditorPage";
 import ArchivedNotesPage from "@pages/ArchivedNotesPage";
+import SearchedNotesPage from "@pages/SearchedNotesPage";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,22 @@ export const router = createBrowserRouter([
       {
         path: "/archive",
         element: <ArchivedNotesPage />,
+        children: [
+          {
+            path: ":id",
+            element: <NoteEditorPage />,
+          },
+
+          {
+            path: "*",
+            element: <h1> Note not found </h1>,
+          },
+        ],
+      },
+
+      {
+        path: "/search",
+        element: <SearchedNotesPage />,
         children: [
           {
             path: ":id",

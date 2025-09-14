@@ -7,12 +7,25 @@ import iconSettings from "@assets/images/icon-settings.svg";
 import iconLogo from "@assets/images/logo.svg";
 import iconPlus from "@assets/images/icon-plus.svg";
 import { useAtomValue } from "jotai";
-import { noteListAtom } from "@/atoms";
+import { noteListAtom, searchTermAtom } from "@/atoms";
 import { usePathname } from "@/hooks/usePathname";
 
-export default function AllNotesPage() {
+export default function SearchedNotesPage() {
   const noteList = useAtomValue(noteListAtom);
   const { pathname } = usePathname();
+
+  const searchTerm = useAtomValue(searchTermAtom);
+  const term = searchTerm.toLowerCase();
+
+  const filteredNotes = noteList.filter((note) =>
+    (
+      note.title.toLowerCase() +
+      " " +
+      note.content?.toLowerCase() +
+      " " +
+      note.tags.join(" ").toLowerCase()
+    ).includes(term),
+  );
 
   /* TODO: Add search bar on smaller devices  */
   return (
@@ -22,7 +35,10 @@ export default function AllNotesPage() {
 
         {/* header content for desktops */}
         <div className="hidden items-center justify-between lg:flex">
-          <h1 className="text-2xl font-bold">All Notes</h1>
+          <h1 className="text-2xl font-bold">
+            <span className="text-neutral-600"> Showing results for: </span>
+            {term}
+          </h1>
 
           <div className="flex gap-x-4">
             <SearchBar />
@@ -35,13 +51,14 @@ export default function AllNotesPage() {
         <div className="relative grid content-start gap-y-4 border-r-2 border-neutral-200 lg:p-5">
           <Link
             className="text-neutral-0 hidden w-full cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-center text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-blue-700 focus:outline-2 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base lg:inline-block"
-            to="/notes/create-new"
+            to="/search/create-new"
           >
             + Create New Note
           </Link>
 
           <NoteList
-            notes={noteList.filter((note) => !note.archived)}
+            notes={filteredNotes}
+            isSearching={!!term}
             emptyStateText="You don't have any notes yet. Start a new note to capture your thoughts and ideas."
           />
         </div>
@@ -51,9 +68,16 @@ export default function AllNotesPage() {
 
       {/* show either note list or note editor page on tablet, mobile */}
       <div className="mx-auto flex w-[90%] flex-col content-start gap-y-4 py-6 lg:hidden">
-        {pathname === "/notes" && (
+        {pathname === "/search" && (
           <>
-            <h1 className="text-2xl font-bold"> All Notes </h1>
+            <h1 className="text-2xl font-bold"> Search </h1>
+
+            <SearchBar />
+
+            <p className="text-sm text-neutral-700">
+              All notes matching ”{searchTerm}” are displayed below.
+            </p>
+
             <div className="relative">
               {/* create new note button for tablet, mobile */}
               <Link
@@ -65,7 +89,8 @@ export default function AllNotesPage() {
               </Link>
 
               <NoteList
-                notes={noteList.filter((note) => !note.archived)}
+                notes={filteredNotes}
+                isSearching={!!term}
                 emptyStateText="You don't have any notes yet. Start a new note to capture your thoughts and ideas."
               />
             </div>

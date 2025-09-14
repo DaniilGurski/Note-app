@@ -1,25 +1,29 @@
+import { searchTermAtom } from "@/atoms";
 import iconSearch from "@assets/images/icon-search.svg";
 import IconButton from "@components/ui/buttons/IconButton";
-import { useState, type FormEventHandler } from "react";
+import { useSetAtom } from "jotai";
+import { useEffect, useState, type FormEventHandler } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
-type SearchBarProps = {
-  searchPathname: string;
-};
-
-export default function SearchBar({ searchPathname }: SearchBarProps) {
-  const [searchParam] = useSearchParams();
+export default function SearchBar() {
+  const [searchParams] = useSearchParams();
+  const setSearchTerm = useSetAtom(searchTermAtom);
+  const [input, setInput] = useState(searchParams.get("term") || "");
   const navigate = useNavigate();
-  const [input, setInput] = useState(searchParam.get("search") || "");
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    setSearchTerm(input);
 
     navigate({
-      pathname: searchPathname,
-      search: `?search=${encodeURIComponent(input)}`,
+      pathname: "/search",
+      search: `?term=${encodeURIComponent(input)}`,
     });
   };
+
+  useEffect(() => {
+    setSearchTerm(searchParams.get("term") || "");
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>

@@ -2,32 +2,17 @@ import SearchBar from "@/components/ui/SearchBar";
 import IconButton from "@components/ui/buttons/IconButton";
 import NoteList from "@/components/NoteList";
 import MenuBar from "@/components/MenuBar";
-import { Link, Outlet, useLocation, useSearchParams } from "react-router";
+import { Link, Outlet } from "react-router";
 import iconSettings from "@assets/images/icon-settings.svg";
 import iconLogo from "@assets/images/logo.svg";
 import iconPlus from "@assets/images/icon-plus.svg";
 import { useAtomValue } from "jotai";
 import { noteListAtom } from "@/atoms";
+import { usePathname } from "@/hooks/usePathname";
 
 export default function ArchivedNotesPage() {
   const noteList = useAtomValue(noteListAtom);
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const search = searchParams.get("search")?.toLowerCase() || "";
-  const filteredNotes = noteList.filter((note) => {
-    if (
-      note.archived &&
-      (
-        note.title.toLowerCase() +
-        " " +
-        note.content?.toLowerCase() +
-        " " +
-        note.tags.join(" ").toLowerCase()
-      ).includes(search)
-    ) {
-      return note;
-    }
-  });
+  const { pathname } = usePathname();
 
   return (
     <>
@@ -39,7 +24,7 @@ export default function ArchivedNotesPage() {
           <h1 className="text-2xl font-bold"> Archived Notes </h1>
 
           <div className="flex gap-x-4">
-            <SearchBar searchPathname="/archive" />
+            <SearchBar />
             <IconButton icon={iconSettings} srOnlyLabel="Settings" />
           </div>
         </div>
@@ -60,7 +45,7 @@ export default function ArchivedNotesPage() {
           </p>
 
           <NoteList
-            notes={filteredNotes}
+            notes={noteList.filter((note) => note.archived)}
             emptyStateText="No notes have been archived yet. Move notes here for safekeeping, or create a new note."
           />
         </div>
@@ -70,7 +55,7 @@ export default function ArchivedNotesPage() {
 
       {/* show either note list or note editor page on tablet, mobile */}
       <div className="mx-auto flex w-[90%] flex-col content-start gap-y-4 py-6 lg:hidden">
-        {location.pathname === "/archive" && (
+        {pathname === "/archive" && (
           <>
             <h1 className="text-2xl font-bold"> Archived Notes </h1>
             <div className="relative">

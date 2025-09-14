@@ -2,13 +2,14 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import supabase from "@/supabaseClient";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
-import { useAtom, useSetAtom } from "jotai";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import {
   archvieDialogOpenedAtom,
   deleteDialogOpenedAtom,
   noteListAtom,
+  searchTermAtom,
 } from "@/atoms";
 import iconTag from "@assets/images/icon-tag.svg";
 import iconClock from "@assets/images/icon-clock.svg";
@@ -18,6 +19,8 @@ import iconRestore from "@assets/images/icon-restore.svg";
 import PageControlHeader from "@/components/PageControlHeader";
 import Button from "@/components/ui/buttons/Button";
 import { useRestore } from "@/hooks/useRestore";
+import toast from "react-hot-toast";
+import { usePathname } from "@/hooks/usePathname";
 
 const noteEditorFormSchema = z.object({
   title: z.string(),
@@ -29,13 +32,14 @@ export type NoteEditorFormFields = z.infer<typeof noteEditorFormSchema>;
 
 export default function NoteEditorPage() {
   const { id } = useParams();
-  const location = useLocation();
+  const { pathname, base } = usePathname();
   const methods = useForm<NoteEditorFormFields>({
     resolver: zodResolver(noteEditorFormSchema),
   });
   const { handleSubmit, register, reset } = methods;
   const [noteList, setNoteList] = useAtom(noteListAtom);
   const note = noteList.find((note) => note.id === id);
+  const searchTerm = useAtomValue(searchTermAtom);
 
   const navigate = useNavigate();
 
@@ -44,14 +48,12 @@ export default function NoteEditorPage() {
     const tags = data.tags.trim() ? data.tags.split(",") : [];
     const user = await supabase.auth.getUser();
 
-    console.log("submit");
-
     const { data: notes, error } = await supabase
       .from("notes")
       .upsert({
         id: editedNote?.id,
         user_id: user.data.user?.id,
-        archived: location.pathname === "/archive/create-new",
+        archived: pathname === "/archive/create-new",
         title: data.title,
         tags,
         content: data.content,
@@ -71,12 +73,7 @@ export default function NoteEditorPage() {
     } else {
       setNoteList((prev) => [...prev, notes[0]]);
     }
-
-    navigate(
-      location.pathname === "/archive/create-new"
-        ? `/archive/${notes[0].id}`
-        : `/notes/${notes[0].id}`,
-    );
+    navigate(`${base}/${notes[0].id}`);
   };
 
   // Clear default values when creating a new note or fill in note values by ID
@@ -92,6 +89,7 @@ export default function NoteEditorPage() {
 
       if (!note) {
         navigate("/notes");
+        toast.error("No notes found with this ID");
         return console.log("No notes found with ID", id);
       }
 
@@ -157,7 +155,11 @@ export default function NoteEditorPage() {
             <Button
               variant="secondary"
               type="button"
-              onClick={() => navigate(-1)}
+              onClick={() =>
+                navigate(
+                  base === "/search" ? `${base}?term=${searchTerm}` : base,
+                )
+              }
             >
               Cancel
             </Button>
@@ -189,6 +191,7 @@ function OperationPanel({ isArchivedNote, id }: OperationPanelProps) {
           <Button
             variant="border"
             className="w-full"
+            type="button"
             onClick={() => setArchivedDialogOpened(true)}
           >
             <img src={iconArchive} alt="" />
@@ -212,6 +215,7 @@ function OperationPanel({ isArchivedNote, id }: OperationPanelProps) {
         <Button
           variant="border"
           className="w-full"
+          type="button"
           onClick={() => setDeleteDialogOpened(true)}
         >
           <img src={iconDelete} alt="" />
