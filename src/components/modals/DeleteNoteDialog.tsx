@@ -4,7 +4,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { deleteDialogOpenedAtom, noteListAtom } from "@/atoms";
 import clsx from "clsx";
 import supabase from "@/supabaseClient";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import toast from "react-hot-toast";
 import { usePathname } from "@/hooks/usePathname";
 

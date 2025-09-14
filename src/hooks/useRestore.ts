@@ -52,7 +52,7 @@ export const useRestore = () => {
         },
       );
     },
-    [setNoteList, navigate],
+    [setNoteList, navigate, base, searchTerm],
   );
 
   return restore;

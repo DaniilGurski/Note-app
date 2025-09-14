@@ -23,6 +23,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     setSearchTerm(searchParams.get("term") || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
