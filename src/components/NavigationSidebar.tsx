@@ -3,7 +3,7 @@ import { NavLink } from "react-router";
 import iconLogo from "@assets/images/logo.svg";
 import iconHome from "@assets/images/icon-home.svg";
 import iconArchive from "@assets/images/icon-archive.svg";
-import iconTag from "@assets/images/icon-tag.svg";
+// import iconTag from "@assets/images/icon-tag.svg";
 import iconArrowLeft from "@assets/images/icon-arrow-left.svg";
 import clsx from "clsx";
 
@@ -11,7 +11,7 @@ type NavigationLinkProps = PropsWithChildren & {
   href: string;
 };
 
-const tags = ["Cooking", "Dev", "Fitness"];
+// const tags = ["Cooking", "Dev", "Fitness"];
 
 export default function NavigationSidebar() {
   return (

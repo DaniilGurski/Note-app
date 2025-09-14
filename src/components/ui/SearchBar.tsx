@@ -1,23 +1,36 @@
-import { searchedNoteAtom } from "@/atoms";
 import iconSearch from "@assets/images/icon-search.svg";
 import IconButton from "@components/ui/buttons/IconButton";
-import { useSetAtom } from "jotai";
+import { useState, type FormEventHandler } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 
-export default function SearchBar() {
-  const setSearchedNote = useSetAtom(searchedNoteAtom);
+type SearchBarProps = {
+  searchPathname: string;
+};
 
-  {
-    /* TODO: Perform filtering based on the current value of searchNote or after submission? */
-  }
+export default function SearchBar({ searchPathname }: SearchBarProps) {
+  const [searchParam] = useSearchParams();
+  const navigate = useNavigate();
+  const [input, setInput] = useState(searchParam.get("search") || "");
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    navigate({
+      pathname: searchPathname,
+      search: `?search=${encodeURIComponent(input)}`,
+    });
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="input-field flex items-center gap-x-2">
         <IconButton icon={iconSearch} srOnlyLabel="Search note" type="submit" />
 
         <input
           className="outline-none placeholder:text-sm"
           placeholder="Search by title, content, or tags…"
-          onChange={(e) => setSearchedNote(e.target.value)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
       </div>
     </form>

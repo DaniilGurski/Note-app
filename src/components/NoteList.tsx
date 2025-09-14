@@ -5,12 +5,15 @@ import clsx from "clsx";
 
 type NoteListProps = {
   notes: Note[];
+  isSearching?: boolean;
   emptyStateText: string;
 };
 
-export default function NoteList({ notes, emptyStateText }: NoteListProps) {
-  const somethingSearched = false;
-
+export default function NoteList({
+  notes,
+  isSearching,
+  emptyStateText,
+}: NoteListProps) {
   return (
     <ul className="grid gap-y-2 divide-y-2 divide-neutral-200">
       {notes.length > 0 &&
@@ -53,7 +56,7 @@ export default function NoteList({ notes, emptyStateText }: NoteListProps) {
 
       {!notes.length && (
         <div className="rounded-lg border-2 border-neutral-200 bg-neutral-100 p-2">
-          {somethingSearched
+          {isSearching
             ? "No notes match your search. Try a different keyword or create a new note."
             : emptyStateText}
         </div>
