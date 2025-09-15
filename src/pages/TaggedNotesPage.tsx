@@ -30,6 +30,7 @@ export default function TaggedNotesPage() {
 
   useEffect(() => {
     setSearchedTag(searchParams.get("search")?.toLowerCase() || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
