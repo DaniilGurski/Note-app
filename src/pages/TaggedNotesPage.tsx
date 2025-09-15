@@ -2,31 +2,35 @@ import SearchBar from "@/components/ui/SearchBar";
 import IconButton from "@components/ui/buttons/IconButton";
 import NoteList from "@/components/NoteList";
 import MenuBar from "@/components/MenuBar";
-import { Link, Outlet } from "react-router";
+import TagList from "@/components/TagList";
+import { usePathname } from "@/hooks/usePathname";
+import { useEffect } from "react";
+import { Link, Outlet, useNavigate, useSearchParams } from "react-router";
 import iconSettings from "@assets/images/icon-settings.svg";
 import iconLogo from "@assets/images/logo.svg";
 import iconPlus from "@assets/images/icon-plus.svg";
-import { useAtomValue } from "jotai";
-import { noteListAtom, searchTermAtom } from "@/atoms";
-import { usePathname } from "@/hooks/usePathname";
+import iconArrowLeft from "@assets/images/icon-arrow-left.svg";
+import { useAtom, useAtomValue } from "jotai";
+import { noteListAtom, searchedTagAtom } from "@/atoms";
+import { useTags } from "@/hooks/useTags";
 
-export default function SearchedNotesPage() {
+export default function TaggedNotesPage() {
   const noteList = useAtomValue(noteListAtom);
   const { pathname } = usePathname();
+  const navigate = useNavigate();
 
-  const searchTerm = useAtomValue(searchTermAtom);
-  const term = searchTerm.toLowerCase();
+  const [searchParams] = useSearchParams();
+  const [searchedTag, setSearchedTag] = useAtom(searchedTagAtom);
 
   const filteredNotes = noteList.filter((note) =>
-    (
-      note.title.toLowerCase() +
-      " " +
-      note.content?.toLowerCase() +
-      " " +
-      note.tags.join(" ").toLowerCase()
-    ).includes(term),
+    note.tags.join(" ").toLowerCase().includes(searchedTag),
   );
 
+  const { tags } = useTags();
+
+  useEffect(() => {
+    setSearchedTag(searchParams.get("search")?.toLowerCase() || "");
+  }, []);
   return (
     <>
       <header className="lg:bg-neutral-0 border-neutral-200 bg-neutral-100 px-4 py-3 sm:px-8 sm:py-7 lg:border-b-2">
@@ -35,8 +39,8 @@ export default function SearchedNotesPage() {
         {/* header content for desktops */}
         <div className="hidden items-center justify-between lg:flex">
           <h1 className="text-2xl font-bold">
-            <span className="text-neutral-600"> Showing results for: </span>
-            {term}
+            <span className="text-neutral-600"> Notes Tagged: </span>
+            {searchedTag}
           </h1>
 
           <div className="flex gap-x-4">
@@ -50,14 +54,18 @@ export default function SearchedNotesPage() {
         <div className="relative grid content-start gap-y-4 border-r-2 border-neutral-200 lg:p-5">
           <Link
             className="text-neutral-0 hidden w-full cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-center text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-blue-700 focus:outline-2 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base lg:inline-block"
-            to="/search/create-new"
+            to="/tags/create-new"
           >
             + Create New Note
           </Link>
 
+          <p className="text-sm text-neutral-700">
+            All notes with the ”{searchedTag}” tag are shown here.
+          </p>
+
           <NoteList
             notes={filteredNotes}
-            isSearching={!!term}
+            isSearching={!!searchedTag}
             emptyStateText="You don't have any notes yet. Start a new note to capture your thoughts and ideas."
           />
         </div>
@@ -67,14 +75,27 @@ export default function SearchedNotesPage() {
 
       {/* show either note list or note editor page on tablet, mobile */}
       <div className="mx-auto flex w-[90%] flex-col content-start gap-y-4 py-6 lg:hidden">
-        {pathname === "/search" && (
+        {searchParams.get("search") && (
           <>
-            <h1 className="text-2xl font-bold"> Search </h1>
+            <header className="flex border-neutral-200 text-sm lg:hidden">
+              <button
+                className="flex cursor-pointer items-center gap-x-2"
+                onClick={() => {
+                  navigate(-1);
+                }}
+              >
+                <img className="size-4" src={iconArrowLeft} alt="" />
+                <span> Go back </span>
+              </button>
+            </header>
 
-            <SearchBar />
+            <h1 className="text-2xl font-bold">
+              <span className="text-neutral-600"> Notes Tagged: </span>
+              {searchedTag}
+            </h1>
 
             <p className="text-sm text-neutral-700">
-              All notes matching ”{searchTerm}” are displayed below.
+              All notes with the ”{searchedTag}” tag are shown here.
             </p>
 
             <div className="relative">
@@ -89,12 +110,20 @@ export default function SearchedNotesPage() {
 
               <NoteList
                 notes={filteredNotes}
-                isSearching={!!term}
                 emptyStateText="You don't have any notes yet. Start a new note to capture your thoughts and ideas."
               />
             </div>
           </>
         )}
+
+        {pathname === "/tags" && !searchParams.get("search") && (
+          <>
+            <h1 className="text-2xl font-bold text-neutral-950"> Tags </h1>
+
+            <TagList tags={[...tags]} />
+          </>
+        )}
+
         <Outlet />
       </div>
 
