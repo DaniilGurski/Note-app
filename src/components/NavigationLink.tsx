@@ -37,7 +37,7 @@ export default function NavigationLink({
         setIsActive(active);
 
         return clsx(
-          "flex items-center gap-x-2 rounded-lg",
+          "flex items-center gap-x-2 rounded-lg font-medium",
           active &&
             "bg-neutral-100 text-neutral-950 after:content-[url('./src/assets/images/icon-left.svg')]",
           className,

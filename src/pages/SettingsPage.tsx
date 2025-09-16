@@ -1,0 +1,113 @@
+import iconLogo from "@assets/images/logo.svg";
+import iconSettings from "@assets/images/icon-settings.svg";
+import iconSun from "@assets/images/icon-sun.svg";
+import iconFont from "@assets/images/icon-font.svg";
+import iconLock from "@assets/images/icon-lock.svg";
+import iconLogout from "@assets/images/icon-logout.svg";
+import SearchBar from "@/components/ui/SearchBar";
+import IconButton from "@/components/ui/buttons/IconButton";
+import NavigationLink from "@/components/NavigationLink";
+import { Outlet } from "react-router";
+import { usePathname } from "@/hooks/usePathname";
+
+export default function SettingsPage() {
+  const { pathname } = usePathname();
+
+  return (
+    <>
+      <header className="lg:bg-neutral-0 border-neutral-200 bg-neutral-100 px-4 py-3 sm:px-8 sm:py-7 lg:border-b-2">
+        <img className="block lg:hidden" src={iconLogo} alt="logo" />
+
+        {/* header content for desktops */}
+        <div className="hidden items-center justify-between lg:flex">
+          <h1 className="text-2xl font-bold">Settings</h1>
+
+          <div className="flex gap-x-4">
+            <SearchBar />
+            <IconButton icon={iconSettings} srOnlyLabel="Settings" />
+          </div>
+        </div>
+      </header>
+
+      <div className="hidden h-full grid-cols-[290px_1fr] lg:grid">
+        <div className="relative grid content-start gap-y-4 border-r-2 border-neutral-200 lg:p-5">
+          <ul>
+            <li>
+              <NavigationLink className="p-2" href="/settings/theme">
+                <img src={iconSun} alt="" />
+                Color Theme
+              </NavigationLink>
+            </li>
+
+            <li>
+              <NavigationLink className="p-2" href="/settings/font">
+                <img src={iconFont} alt="" />
+                Font Theme
+              </NavigationLink>
+            </li>
+
+            <li>
+              <NavigationLink className="p-2" href="/settings/change-password">
+                <img src={iconLock} alt="" />
+                Change Password
+              </NavigationLink>
+            </li>
+          </ul>
+
+          <span className="h-0.5 bg-neutral-200"> </span>
+
+          <button className="flex gap-x-2 p-2 font-medium">
+            <img src={iconLogout} alt="" />
+            Logout
+          </button>
+        </div>
+
+        <div className="grid lg:grid-cols-[1fr_258px]">
+          <Outlet />
+        </div>
+      </div>
+
+      {/* show either note list or note editor page on tablet, mobile */}
+      <div className="mx-auto flex w-[90%] flex-col content-start gap-y-4 py-6 lg:hidden">
+        {pathname === "/settings" && (
+          <>
+            <h1 className="text-2xl font-bold"> Settings </h1>
+
+            <div className="grid gap-y-2">
+              <ul>
+                <li>
+                  <NavigationLink className="py-2" href="theme">
+                    <img src={iconSun} alt="" />
+                    Color Theme
+                  </NavigationLink>
+                </li>
+
+                <li>
+                  <NavigationLink className="py-2" href="">
+                    <img src={iconFont} alt="" />
+                    Font Theme
+                  </NavigationLink>
+                </li>
+
+                <li>
+                  <NavigationLink className="py-2" href="">
+                    <img src={iconLock} alt="" />
+                    Change Password
+                  </NavigationLink>
+                </li>
+              </ul>
+
+              <span className="h-0.5 bg-neutral-200"> </span>
+
+              <button className="flex gap-x-2 py-2 font-medium">
+                <img src={iconLogout} alt="" />
+                Logout
+              </button>
+            </div>
+          </>
+        )}
+        <Outlet />
+      </div>
+    </>
+  );
+}
