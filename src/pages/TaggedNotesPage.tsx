@@ -44,9 +44,12 @@ export default function TaggedNotesPage() {
             {searchedTag}
           </h1>
 
-          <div className="flex gap-x-4">
+          <div className="flex items-center gap-x-4">
             <SearchBar />
-            <IconButton icon={iconSettings} srOnlyLabel="Settings" />
+            <Link to="/settings">
+              <img src={iconSettings} alt="settings" />
+              <span className="sr-only"> Go to settings</span>
+            </Link>
           </div>
         </div>
       </header>
@@ -127,8 +130,6 @@ export default function TaggedNotesPage() {
 
         <Outlet />
       </div>
-
-      <MenuBar />
     </>
   );
 }

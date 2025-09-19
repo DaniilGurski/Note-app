@@ -5,13 +5,26 @@ import iconFont from "@assets/images/icon-font.svg";
 import iconLock from "@assets/images/icon-lock.svg";
 import iconLogout from "@assets/images/icon-logout.svg";
 import SearchBar from "@/components/ui/SearchBar";
-import IconButton from "@/components/ui/buttons/IconButton";
 import NavigationLink from "@/components/NavigationLink";
-import { Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import { usePathname } from "@/hooks/usePathname";
+import supabase from "@/supabaseClient";
+import toast from "react-hot-toast";
 
 export default function SettingsPage() {
   const { pathname } = usePathname();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      toast.error("Error logging out");
+      console.error("logout", error.code);
+    }
+
+    navigate("/auth/login");
+  };
 
   return (
     <>
@@ -22,18 +35,21 @@ export default function SettingsPage() {
         <div className="hidden items-center justify-between lg:flex">
           <h1 className="text-2xl font-bold">Settings</h1>
 
-          <div className="flex gap-x-4">
+          <div className="flex items-center gap-x-4">
             <SearchBar />
-            <IconButton icon={iconSettings} srOnlyLabel="Settings" />
+            <Link to="/settings">
+              <img src={iconSettings} alt="settings" />
+              <span className="sr-only"> Go to settings</span>
+            </Link>
           </div>
         </div>
       </header>
 
       <div className="hidden h-full grid-cols-[290px_1fr] lg:grid">
         <div className="relative grid content-start gap-y-4 border-r-2 border-neutral-200 lg:p-5">
-          <ul>
+          <ul className="grid gap-y-2">
             <li>
-              <NavigationLink className="p-2" href="/settings/theme">
+              <NavigationLink className="p-2" href="/settings/color">
                 <img src={iconSun} alt="" />
                 Color Theme
               </NavigationLink>
@@ -56,13 +72,16 @@ export default function SettingsPage() {
 
           <span className="h-0.5 bg-neutral-200"> </span>
 
-          <button className="flex gap-x-2 p-2 font-medium">
+          <button
+            className="flex cursor-pointer gap-x-2 p-2 font-medium"
+            onClick={handleLogout}
+          >
             <img src={iconLogout} alt="" />
             Logout
           </button>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_258px]">
+        <div className="grid lg:grid-cols-[528px_258px]">
           <Outlet />
         </div>
       </div>
@@ -74,23 +93,23 @@ export default function SettingsPage() {
             <h1 className="text-2xl font-bold"> Settings </h1>
 
             <div className="grid gap-y-2">
-              <ul>
+              <ul className="grid gap-y-2">
                 <li>
-                  <NavigationLink className="py-2" href="theme">
+                  <NavigationLink className="py-2" href="color">
                     <img src={iconSun} alt="" />
                     Color Theme
                   </NavigationLink>
                 </li>
 
                 <li>
-                  <NavigationLink className="py-2" href="">
+                  <NavigationLink className="py-2" href="font">
                     <img src={iconFont} alt="" />
                     Font Theme
                   </NavigationLink>
                 </li>
 
                 <li>
-                  <NavigationLink className="py-2" href="">
+                  <NavigationLink className="py-2" href="change-password">
                     <img src={iconLock} alt="" />
                     Change Password
                   </NavigationLink>
@@ -99,7 +118,10 @@ export default function SettingsPage() {
 
               <span className="h-0.5 bg-neutral-200"> </span>
 
-              <button className="flex gap-x-2 py-2 font-medium">
+              <button
+                className="flex cursor-pointer gap-x-2 py-2 font-medium"
+                onClick={handleLogout}
+              >
                 <img src={iconLogout} alt="" />
                 Logout
               </button>

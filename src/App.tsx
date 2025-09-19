@@ -7,6 +7,7 @@ import DeleteNoteDialog from "@components/modals/DeleteNoteDialog";
 import ArchiveNoteDialog from "@components/modals/ArchiveNoteDialog";
 import supabase from "@/supabaseClient";
 import { Toaster } from "react-hot-toast";
+import MenuBar from "@components/MenuBar";
 
 export default function App() {
   const [noteList, setNoteList] = useAtom(noteListAtom);
@@ -43,6 +44,7 @@ export default function App() {
 
       <div className="flex h-dvh flex-1 flex-col">
         <Outlet />
+        <MenuBar />
       </div>
 
       <DeleteNoteDialog />

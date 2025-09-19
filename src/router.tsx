@@ -14,6 +14,8 @@ import SearchedNotesPage from "@pages/SearchedNotesPage";
 import TaggedNotesPage from "@pages/TaggedNotesPage";
 import SettingsPage from "@pages/SettingsPage";
 import ColorThemePage from "@pages/ColorThemePage";
+import FontThemePage from "@pages/FontThemePage";
+import ChangePasswordPage from "@pages/ChangePasswordPage";
 
 export const router = createBrowserRouter([
   {
@@ -94,8 +96,18 @@ export const router = createBrowserRouter([
         element: <SettingsPage />,
         children: [
           {
-            path: "theme",
+            path: "color",
             element: <ColorThemePage />,
+          },
+
+          {
+            path: "font",
+            element: <FontThemePage />,
+          },
+
+          {
+            path: "change-password",
+            element: <ChangePasswordPage />,
           },
         ],
       },
