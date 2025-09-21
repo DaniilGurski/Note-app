@@ -74,11 +74,7 @@ export default function App() {
 
       <DeleteNoteDialog />
       <ArchiveNoteDialog />
-      <Toaster
-        toastOptions={{
-          style: {},
-        }}
-      />
+      <Toaster />
     </main>
   );
 }

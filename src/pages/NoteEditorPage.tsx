@@ -174,7 +174,7 @@ export default function NoteEditorPage() {
           </ul>
 
           <textarea
-            className="h-full w-full resize-none border-t-2 border-neutral-200 pt-3 text-xs placeholder:text-neutral-700 sm:text-sm lg:pt-4 dark:border-neutral-800 dark:placeholder:text-neutral-100"
+            className="dark:text-neutral-0 h-full w-full resize-none border-t-2 border-neutral-200 pt-3 text-xs placeholder:text-neutral-700 sm:text-sm lg:pt-4 dark:border-neutral-800 dark:placeholder:text-neutral-100"
             placeholder="Start typing your note here…"
             {...register("content")}
           />
