@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import { themeAtom } from "@/atoms";
 import { useAtomValue } from "jotai";
+import { Toaster } from "react-hot-toast";
 
 export default function AuthPage() {
   const theme = useAtomValue(themeAtom);
@@ -11,6 +12,7 @@ export default function AuthPage() {
       data-theme={theme}
     >
       <Outlet />
+      <Toaster />
     </main>
   );
 }

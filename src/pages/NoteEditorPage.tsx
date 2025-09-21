@@ -9,6 +9,7 @@ import {
   archvieDialogOpenedAtom,
   deleteDialogOpenedAtom,
   noteListAtom,
+  notesLoadingAtom,
   searchTermAtom,
 } from "@/atoms";
 import iconTag from "@assets/images/icon-tag.svg";
@@ -40,6 +41,7 @@ export default function NoteEditorPage() {
   const { handleSubmit, register, reset } = methods;
   const [noteList, setNoteList] = useAtom(noteListAtom);
   const note = noteList.find((note) => note.id === id);
+  const notesLoading = useAtomValue(notesLoadingAtom);
   const searchTerm = useAtomValue(searchTermAtom);
 
   const navigate = useNavigate();
@@ -79,6 +81,8 @@ export default function NoteEditorPage() {
 
   // Clear default values when creating a new note or fill in note values by ID
   useEffect(() => {
+    if (notesLoading) return;
+
     if (id === "create-new") {
       reset({
         title: "",
@@ -100,7 +104,7 @@ export default function NoteEditorPage() {
         content: note.content,
       });
     }
-  }, [id, noteList, reset, navigate]);
+  }, [id, noteList, reset, navigate, notesLoading]);
 
   return (
     <div className="flex h-full flex-col gap-y-3 border-neutral-200 sm:gap-y-4 lg:border-r-2">

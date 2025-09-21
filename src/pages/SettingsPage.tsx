@@ -1,12 +1,9 @@
-import iconLogo from "@assets/images/logo.svg";
-import iconSettings from "@assets/images/icon-settings.svg";
 import iconSun from "@assets/images/icon-sun.svg";
 import iconFont from "@assets/images/icon-font.svg";
 import iconLock from "@assets/images/icon-lock.svg";
 import iconLogout from "@assets/images/icon-logout.svg";
-import SearchBar from "@/components/ui/SearchBar";
 import NavigationLink from "@/components/NavigationLink";
-import { Link, Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { usePathname } from "@/hooks/usePathname";
 import supabase from "@/supabaseClient";
 import toast from "react-hot-toast";

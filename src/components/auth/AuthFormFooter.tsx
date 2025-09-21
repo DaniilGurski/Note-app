@@ -18,7 +18,6 @@ export default function AuthFormFooter({ isLoginPage }: AuthFormFooterProps) {
       return console.error(error.code);
     }
 
-    console.log(data);
     navigate("/notes");
   };
 

@@ -7,6 +7,7 @@ import AuthFormHeader from "@components/auth/AuthFormHeader";
 import Hint from "@components/Hint";
 import TextInput from "@components/ui/inputs/TextInput";
 import supabase from "@/supabaseClient";
+import toast from "react-hot-toast";
 
 const ForgotPasswordSchema = z.object({
   email: z.email({ error: "Please enter a valid email address." }),
@@ -26,20 +27,16 @@ export default function ForgotPasswordForm() {
   } = methods;
 
   const onSubmit: SubmitHandler<ForgotPasswordFields> = async (data) => {
-    const { data: authData, error } = await supabase.auth.resetPasswordForEmail(
-      data.email,
-      {
-        /* TODO: Add production link */
-        redirectTo: "http://localhost:5173/auth/reset-password",
-      },
-    );
+    const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
+      redirectTo: "https://note-app-five-nu.vercel.app/auth/reset-password",
+    });
 
     if (error) {
       setForgotPasswordError(error.message);
       console.error("forgot password", error.code);
     }
 
-    console.log("forgot password", authData);
+    toast.success("The reset link has been sent!");
   };
 
   return (

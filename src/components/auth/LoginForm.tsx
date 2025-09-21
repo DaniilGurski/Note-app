@@ -41,7 +41,6 @@ export default function LoginForm() {
       return console.error("login", error.code);
     }
 
-    console.log("login", authData);
     navigate("/notes");
   };
 

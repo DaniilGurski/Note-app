@@ -42,7 +42,6 @@ export default function ResetPasswordForm() {
       return console.error("reset password", error.code);
     }
 
-    console.log("reset password", authData);
     navigate("/auth/login");
   };
 

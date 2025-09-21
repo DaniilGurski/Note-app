@@ -43,7 +43,6 @@ export default function ChangePasswordPage() {
     }
 
     toast.success("Your password has successfully been changed!");
-    console.log(user);
   };
 
   return (

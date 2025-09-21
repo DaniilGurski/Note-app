@@ -5,9 +5,19 @@ import iconMonospace from "@assets/images/icon-font-monospace.svg";
 import Button from "@/components/ui/buttons/Button";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import { useAtom } from "jotai";
+import { fontThemeAtom } from "@/atoms";
 
 export default function ColorThemePage() {
   const navigate = useNavigate();
+  const [fontTheme, setFontTheme] = useAtom(fontThemeAtom);
+  const [selectedFontTheme, setSelectedFontTheme] =
+    useState<typeof fontTheme>(fontTheme);
+
+  const handleApplyChanges = () => {
+    setFontTheme(selectedFontTheme);
+  };
 
   return (
     <article className="grid content-start gap-y-5 lg:gap-y-6 lg:p-8">
@@ -33,9 +43,13 @@ export default function ColorThemePage() {
       </header>
 
       <form className="grid gap-y-5 lg:gap-y-6">
-        <RadioGroup className="grid gap-y-4">
+        <RadioGroup
+          className="grid gap-y-4"
+          value={selectedFontTheme}
+          onChange={setSelectedFontTheme}
+        >
           <Radio
-            className="group bg-neutral-0 flex items-center gap-x-4 rounded-xl border-2 border-neutral-200 p-4 data-checked:bg-neutral-100 dark:border-neutral-800 dark:bg-transparent dark:data-checked:border-neutral-700 dark:data-checked:bg-neutral-800"
+            className="group bg-neutral-0 flex cursor-pointer items-center gap-x-4 rounded-xl border-2 border-neutral-200 p-4 data-checked:bg-neutral-100 dark:border-neutral-800 dark:bg-transparent dark:data-checked:border-neutral-700 dark:data-checked:bg-neutral-800"
             value="sans-serif"
           >
             <div className="bg-neutral-0 size-10 rounded-xl border-2 border-neutral-200 p-2 dark:border-neutral-700 dark:bg-neutral-950">
@@ -56,7 +70,7 @@ export default function ColorThemePage() {
             </div>
           </Radio>
           <Radio
-            className="group bg-neutral-0 flex items-center gap-x-4 rounded-xl border-2 border-neutral-200 p-4 data-checked:bg-neutral-100 dark:border-neutral-800 dark:bg-transparent dark:data-checked:border-neutral-700 dark:data-checked:bg-neutral-800"
+            className="group bg-neutral-0 flex cursor-pointer items-center gap-x-4 rounded-xl border-2 border-neutral-200 p-4 data-checked:bg-neutral-100 dark:border-neutral-800 dark:bg-transparent dark:data-checked:border-neutral-700 dark:data-checked:bg-neutral-800"
             value="serif"
           >
             <div className="bg-neutral-0 size-10 rounded-xl border-2 border-neutral-200 p-2 dark:border-neutral-700 dark:bg-neutral-950">
@@ -77,7 +91,7 @@ export default function ColorThemePage() {
             </div>
           </Radio>
           <Radio
-            className="group bg-neutral-0 flex items-center gap-x-4 rounded-xl border-2 border-neutral-200 p-4 data-checked:bg-neutral-100 dark:border-neutral-800 dark:bg-transparent dark:data-checked:border-neutral-700 dark:data-checked:bg-neutral-800"
+            className="group bg-neutral-0 flex cursor-pointer items-center gap-x-4 rounded-xl border-2 border-neutral-200 p-4 data-checked:bg-neutral-100 dark:border-neutral-800 dark:bg-transparent dark:data-checked:border-neutral-700 dark:data-checked:bg-neutral-800"
             value="monospace"
           >
             <div className="bg-neutral-0 size-10 rounded-xl border-2 border-neutral-200 p-2 dark:border-neutral-700 dark:bg-neutral-950">
@@ -99,7 +113,12 @@ export default function ColorThemePage() {
           </Radio>
         </RadioGroup>
 
-        <Button className="justify-self-end" variant="primary">
+        <Button
+          className="justify-self-end"
+          variant="primary"
+          type="button"
+          onClick={handleApplyChanges}
+        >
           Apply Changes
         </Button>
       </form>

@@ -41,7 +41,6 @@ export default function SignUpForm() {
       return console.error("sign up", error.code);
     }
 
-    console.log("sign up", authData);
     navigate("/notes");
   };
 
