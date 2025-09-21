@@ -32,10 +32,9 @@ export default function ChangePasswordPage() {
   } = methods;
 
   const onSubmit: SubmitHandler<ChangePasswordFields> = async (data) => {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.updateUser({ password: data.newPassword });
+    const { error } = await supabase.auth.updateUser({
+      password: data.newPassword,
+    });
 
     if (error) {
       toast.error("Error changing password");

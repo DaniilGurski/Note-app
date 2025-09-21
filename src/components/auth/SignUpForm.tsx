@@ -31,7 +31,7 @@ export default function SignUpForm() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
-    const { data: authData, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
     });

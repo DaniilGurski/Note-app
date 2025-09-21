@@ -33,7 +33,7 @@ export default function ResetPasswordForm() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ResetPasswordFields> = async (data) => {
-    const { data: authData, error } = await supabase.auth.updateUser({
+    const { error } = await supabase.auth.updateUser({
       password: data.password,
     });
 
