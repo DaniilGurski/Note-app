@@ -16,6 +16,7 @@ import iconClock from "@assets/images/icon-clock.svg";
 import iconArchive from "@assets/images/icon-archive.svg";
 import iconDelete from "@assets/images/icon-delete.svg";
 import iconRestore from "@assets/images/icon-restore.svg";
+import iconStatus from "@assets/images/icon-status.svg";
 import PageControlHeader from "@/components/PageControlHeader";
 import Button from "@/components/ui/buttons/Button";
 import { useRestore } from "@/hooks/useRestore";
@@ -108,51 +109,78 @@ export default function NoteEditorPage() {
       </FormProvider>
 
       <form
-        className="grid h-full grid-cols-1 divide-neutral-200 lg:grid-cols-[1fr_258px] lg:divide-x-2"
+        className="grid h-full grid-cols-1 divide-neutral-200 lg:grid-cols-[1fr_258px] lg:divide-x-2 dark:divide-neutral-800"
         onSubmit={handleSubmit(onSubmit)}
         id="note-editor-form"
       >
         <div className="flex h-full flex-col gap-y-3 sm:gap-y-4 lg:p-6">
           <input
-            className="text-xl font-bold placeholder:text-neutral-950 sm:text-2xl"
+            className="dark:text-neutral-0 text-xl font-bold placeholder:text-neutral-950 sm:text-2xl"
             placeholder="Enter a title…"
             {...register("title")}
           />
 
-          <ul className="grid gap-y-2 text-xs sm:text-sm">
+          <ul className="grid gap-y-2 text-xs sm:text-sm dark:text-neutral-300">
             <li className="grid grid-cols-[14ch_1fr]">
               <div className="flex items-center gap-x-1.5">
-                <img className="size-4" src={iconTag} alt="" />
+                <img className="size-4 dark:invert-100" src={iconTag} alt="" />
                 Tags
               </div>
               <input
-                className="rounded-sm text-neutral-950 outline-neutral-500 placeholder:text-neutral-400"
+                className="dark:text-neutral-0 rounded-sm text-neutral-950 outline-neutral-500 placeholder:text-neutral-400"
                 placeholder="Add tags separated by commas (e.g. Work, Planning)"
                 {...register("tags")}
               />
             </li>
 
+            {base === "/search" && (
+              <li className="grid grid-cols-[14ch_1fr]">
+                <div className="flex items-center gap-x-1.5">
+                  <img
+                    className="size-4 dark:invert-100"
+                    src={iconStatus}
+                    alt=""
+                  />
+                  Status
+                </div>
+                <span> {note?.archived ? "Archived" : "Active"} </span>
+              </li>
+            )}
+
             <li className="grid grid-cols-[14ch_1fr]">
               <div className="flex items-center gap-x-1.5">
-                <img className="size-4" src={iconClock} alt="" />
+                <img
+                  className="size-4 dark:invert-100"
+                  src={iconClock}
+                  alt=""
+                />
                 Last edited
               </div>
 
-              <span className="text-neutral-400"> Not yet saved </span>
+              <span className="text-neutral-400">
+                {note
+                  ? new Date(note.last_edited_at).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : "Not yet saved"}
+              </span>
             </li>
           </ul>
 
           <textarea
-            className="h-full w-full resize-none border-t-2 border-neutral-200 pt-3 text-xs placeholder:text-neutral-700 sm:text-sm lg:pt-4"
+            className="h-full w-full resize-none border-t-2 border-neutral-200 pt-3 text-xs placeholder:text-neutral-700 sm:text-sm lg:pt-4 dark:border-neutral-800 dark:placeholder:text-neutral-100"
             placeholder="Start typing your note here…"
             {...register("content")}
           />
 
-          <footer className="mt-auto hidden gap-x-4 border-t-2 border-neutral-200 pt-4 lg:flex">
+          <footer className="mt-auto hidden gap-x-4 border-t-2 border-neutral-200 pt-4 lg:flex dark:border-neutral-800">
             <Button variant="primary" form="note-editor-form" type="submit">
               Save Note
             </Button>
             <Button
+              className="dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-neutral-600 dark:hover:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:border-neutral-600 dark:focus:bg-neutral-700 dark:focus:text-neutral-200"
               variant="secondary"
               type="button"
               onClick={() =>
@@ -194,7 +222,7 @@ function OperationPanel({ isArchivedNote, id }: OperationPanelProps) {
             type="button"
             onClick={() => setArchivedDialogOpened(true)}
           >
-            <img src={iconArchive} alt="" />
+            <img className="dark:invert-100" src={iconArchive} alt="" />
             Archive Note
           </Button>
         ) : (
@@ -206,7 +234,7 @@ function OperationPanel({ isArchivedNote, id }: OperationPanelProps) {
               if (id) await restore(id);
             }}
           >
-            <img src={iconRestore} alt="" />
+            <img className="dark:invert-100" src={iconRestore} alt="" />
             Restore Note
           </Button>
         )}
@@ -218,7 +246,7 @@ function OperationPanel({ isArchivedNote, id }: OperationPanelProps) {
           type="button"
           onClick={() => setDeleteDialogOpened(true)}
         >
-          <img src={iconDelete} alt="" />
+          <img className="dark:invert-100" src={iconDelete} alt="" />
           Delete Note
         </Button>
       </li>

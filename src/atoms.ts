@@ -2,6 +2,7 @@ import { atom } from "jotai";
 import { type Note } from "@/data";
 
 export const isAuthAtom = atom(false);
+export const themeAtom = atom<"light" | "dark">("dark");
 export const selectedTagAtom = atom("");
 export const noteListAtom = atom<Note[]>([]);
 export const searchTermAtom = atom("");

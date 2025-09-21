@@ -11,7 +11,7 @@ export default function Hint({ id, text, isError }: HintProps) {
     <div
       className={clsx(
         "flex items-center gap-x-1 text-sm",
-        isError ? "text-red-500" : "text-neutral-600",
+        isError ? "text-red-500" : "text-neutral-600 dark:text-neutral-400",
       )}
       id={id}
     >
@@ -23,6 +23,7 @@ export default function Hint({ id, text, isError }: HintProps) {
         viewBox="0 0 24 24"
       >
         <path
+          className="dark:stroke-neutral-400"
           stroke={isError ? "#fb3748" : "#525866"}
           strokeLinecap="round"
           strokeLinejoin="round"

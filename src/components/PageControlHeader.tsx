@@ -35,15 +35,15 @@ export default function PageControlHeader({
   const note = noteList.find((note) => note.id === id);
 
   return (
-    <header className="flex justify-between border-b-2 border-neutral-200 pb-4 text-sm lg:hidden">
+    <header className="flex justify-between border-b-2 border-neutral-200 pb-4 text-sm lg:hidden dark:border-neutral-800 dark:text-neutral-300">
       <button
         className="flex cursor-pointer items-center gap-x-2"
         onClick={() => {
           navigate(-1);
         }}
       >
-        <img className="size-4" src={iconArrowLeft} alt="" />
-        <span> Go back </span>
+        <img className="size-4 dark:invert-100" src={iconArrowLeft} alt="" />
+        <span className=""> Go back </span>
       </button>
 
       <form
@@ -53,6 +53,7 @@ export default function PageControlHeader({
         {id !== "create-new" && (
           <>
             <IconButton
+              className="dark:invert-100"
               icon={iconDelete}
               srOnlyLabel="Delete this note"
               iconClassName="size-5"
@@ -61,6 +62,7 @@ export default function PageControlHeader({
             />
             {!note?.archived ? (
               <IconButton
+                className="dark:invert-100"
                 icon={iconArchive}
                 srOnlyLabel="Archive this note"
                 iconClassName="size-5"
@@ -69,6 +71,7 @@ export default function PageControlHeader({
               />
             ) : (
               <IconButton
+                className="dark:invert-100"
                 icon={iconRestore}
                 srOnlyLabel="Restore this note"
                 iconClassName="size-5"

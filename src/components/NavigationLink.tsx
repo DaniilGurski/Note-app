@@ -37,9 +37,9 @@ export default function NavigationLink({
         setIsActive(active);
 
         return clsx(
-          "flex items-center gap-x-2 rounded-lg font-medium",
+          "flex items-center gap-x-2 rounded-lg font-medium dark:text-neutral-200",
           active &&
-            "bg-neutral-100 text-neutral-950 after:content-[url('./src/assets/images/icon-left.svg')]",
+            "dark:text-neutral-0 bg-neutral-100 text-neutral-950 after:content-[url('./src/assets/images/icon-left.svg')] dark:bg-neutral-800",
           className,
         );
       }}
@@ -47,7 +47,11 @@ export default function NavigationLink({
     >
       {children}
       {isActive && (
-        <img className="ml-auto -scale-x-100" src={iconArrowLeft} alt="" />
+        <img
+          className="ml-auto -scale-x-100 dark:invert-100"
+          src={iconArrowLeft}
+          alt=""
+        />
       )}
     </NavLink>
   );

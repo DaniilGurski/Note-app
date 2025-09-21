@@ -28,11 +28,16 @@ export default function SearchBar() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="input-field flex items-center gap-x-2">
-        <IconButton icon={iconSearch} srOnlyLabel="Search note" type="submit" />
+      <div className="input-field flex items-center gap-x-2 dark:border-neutral-600 dark:bg-transparent">
+        <IconButton
+          className="dark:invert-100"
+          icon={iconSearch}
+          srOnlyLabel="Search note"
+          type="submit"
+        />
 
         <input
-          className="outline-none placeholder:text-sm"
+          className="outline-none placeholder:text-sm dark:text-neutral-200 dark:placeholder:text-neutral-400"
           placeholder="Search by title, content, or tags…"
           value={input}
           onChange={(e) => setInput(e.target.value)}

@@ -54,7 +54,6 @@ export default function ArchiveNoteDialog() {
       ),
       {
         position: "bottom-right",
-        // duration: 10000000000,
 
         style: {
           width: "90%",
@@ -79,18 +78,18 @@ export default function ArchiveNoteDialog() {
       }}
     >
       <dialog
-        className="bg-neutral-0 mx-auto grid w-[90%] max-w-96 divide-y-2 divide-neutral-200 rounded-xl border-2 border-neutral-200"
+        className="bg-neutral-0 mx-auto grid w-[90%] max-w-96 divide-y-2 divide-neutral-200 rounded-xl border-2 border-neutral-200 dark:divide-neutral-600 dark:border-neutral-600 dark:bg-neutral-700"
         open={archiveDialogOpened}
       >
         <div className="flex items-start gap-x-4 p-5">
-          <img
-            className="rounded-lg bg-neutral-100 p-2"
-            src={iconArchive}
-            alt=""
-          />
+          <div className="grid aspect-square size-12 place-content-center rounded-lg bg-neutral-100 p-2 dark:bg-neutral-600">
+            <img className="dark:invert-100" src={iconArchive} alt="" />
+          </div>
           <div className="grid gap-y-1.5">
-            <h2 className="font-semibold text-neutral-950">Archive Note </h2>
-            <p className="text-sm text-neutral-700">
+            <h2 className="dark:text-neutral-0 font-semibold text-neutral-950">
+              Archive Note
+            </h2>
+            <p className="text-sm text-neutral-700 dark:text-neutral-200">
               Are you sure you want to archive this note? You can find it in the
               Archived Notes section and restore it anytime.
             </p>
@@ -98,6 +97,7 @@ export default function ArchiveNoteDialog() {
         </div>
         <footer className="flex justify-end gap-x-4 px-5 py-4">
           <Button
+            className="dark:hover:border-neutral-00 dark:bg-neutral-500 dark:text-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200 dark:focus:border-neutral-600 dark:focus:bg-neutral-600 dark:focus:text-neutral-200"
             variant="secondary"
             onClick={() => {
               setArchiveDialogOpened(false);

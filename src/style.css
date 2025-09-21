@@ -95,9 +95,4 @@
   }
 }
 
-@layer base {
-  body {
-    background-color: var(--color-neutral-0);
-    color: var(--color-neutral-700);
-  }
-}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

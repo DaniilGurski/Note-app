@@ -25,12 +25,15 @@ export default function TextInput({
 
   return (
     <div className="grid gap-y-1.5">
-      <label className="text-sm font-medium text-neutral-950" htmlFor={id}>
+      <label
+        className="dark:text-neutral-0 text-sm font-medium text-neutral-950"
+        htmlFor={id}
+      >
         {label}
       </label>
 
       <input
-        className="input-field"
+        className="input-field dark:caret-neutral-0 placeholder:text-neutral-500 dark:border-neutral-600 dark:bg-transparent dark:text-neutral-300 dark:hover:bg-neutral-800"
         id={id}
         aria-describedby={hint.id}
         data-error={!!hint.error}

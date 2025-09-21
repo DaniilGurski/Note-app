@@ -18,9 +18,9 @@ export default function Button({
     primary:
       "text-neutral-0 cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-blue-700 focus:outline-2 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base",
     secondary:
-      "text-neutral-600 cursor-pointer rounded-lg bg-neutral-100 px-4 py-3 text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-neutral-0 hover:text-neutral-950 hover:border-neutral-300 focus:outline-2 focus:border-neutral-950 focus:bg-neutral-0 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base border-2 border-transparent ",
+      "text-neutral-600 cursor-pointer rounded-lg bg-neutral-100 px-4 py-3 text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-neutral-0 hover:text-neutral-950 hover:border-neutral-300 focus:outline-2 focus:border-neutral-950 focus:bg-neutral-0 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base border-2 border-transparent",
     border:
-      "flex cursor-pointer items-center gap-x-2 rounded-xl border-2 border-neutral-300 bg-transparent px-4 py-3 text-sm font-medium outline-offset-2 outline-neutral-400 hover:border-transparent hover:bg-neutral-100 focus:border-neutral-950 focus:outline-2 disabled:bg-neutral-50 disabled:text-neutral-300 sm:text-base",
+      "flex cursor-pointer items-center gap-x-2 rounded-xl border-2 border-neutral-300 bg-transparent px-4 py-3 text-sm font-medium outline-offset-2 outline-neutral-400 hover:border-transparent hover:bg-neutral-100 focus:border-neutral-950 focus:outline-2 disabled:bg-neutral-50 disabled:text-neutral-300 sm:text-base dark:border-neutral-600 dark:text-neutral-0 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 dark:hover:border-neutral-600 focus:hover:border-neutral-600 dark:outline-neutral-800",
   };
 
   return (

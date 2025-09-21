@@ -47,7 +47,7 @@ export default function SignUpForm() {
 
   return (
     <div
-      className="bg-neutral-0 mx-auto grid w-[90%] max-w-2xl gap-y-4 rounded-xl border-2 border-neutral-200 px-4 py-10 text-neutral-600 shadow-lg sm:px-8 sm:py-12 md:px-12"
+      className="bg-neutral-0 mx-auto grid w-[90%] max-w-2xl gap-y-4 rounded-xl border-2 border-neutral-200 px-4 py-10 shadow-lg sm:px-8 sm:py-12 md:px-12 dark:border-neutral-800 dark:bg-neutral-950 dark:shadow-none"
       aria-describedby="form-hint"
     >
       <form className="grid gap-y-4" onSubmit={handleSubmit(onSubmit)}>

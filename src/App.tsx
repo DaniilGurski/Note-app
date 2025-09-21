@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
-import { useAtom } from "jotai";
-import { noteListAtom } from "@/atoms";
+import { useAtom, useAtomValue } from "jotai";
+import { noteListAtom, themeAtom } from "@/atoms";
 import { useEffect } from "react";
 import NavigationSidebar from "@components/NavigationSidebar";
 import DeleteNoteDialog from "@components/modals/DeleteNoteDialog";
@@ -11,6 +11,7 @@ import MenuBar from "@components/MenuBar";
 
 export default function App() {
   const [noteList, setNoteList] = useAtom(noteListAtom);
+  const theme = useAtomValue(themeAtom);
 
   // Get user notes on page load
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function App() {
   }, [noteList]);
 
   return (
-    <main className="relative flex">
+    <main className="relative flex dark:bg-neutral-950" data-theme={theme}>
       <NavigationSidebar />
 
       <div className="flex h-dvh flex-1 flex-col">
@@ -49,7 +50,11 @@ export default function App() {
 
       <DeleteNoteDialog />
       <ArchiveNoteDialog />
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          style: {},
+        }}
+      />
     </main>
   );
 }

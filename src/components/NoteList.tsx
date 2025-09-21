@@ -24,12 +24,13 @@ export default function NoteList({
                 className={({ isActive }) =>
                   clsx(
                     "grid gap-y-3 rounded-lg p-2",
-                    isActive && "border-transparent bg-neutral-100",
+                    isActive &&
+                      "border-transparent bg-neutral-100 dark:bg-neutral-800",
                   )
                 }
                 to={`${note.id}`}
               >
-                <h3 className="text-base font-semibold text-neutral-950">
+                <h3 className="dark:text-neutral-0 text-base font-semibold text-neutral-950">
                   {note.title}
                 </h3>
                 {note.tags.length > 0 && (
@@ -37,7 +38,7 @@ export default function NoteList({
                     {note.tags.map((tag) => {
                       return (
                         <li
-                          className="rounded-sm bg-neutral-200 px-1.5 py-0.5 text-xs text-neutral-950"
+                          className="dark:text-neutral-0 rounded-sm bg-neutral-200 px-1.5 py-0.5 text-xs text-neutral-950 dark:bg-neutral-600"
                           key={tag}
                         >
                           {tag}
@@ -46,7 +47,7 @@ export default function NoteList({
                     })}
                   </ul>
                 )}
-                <p className="text-xs">
+                <p className="text-xs dark:text-neutral-300">
                   {format(note.last_edited_at, "dd MMM yyyy")}
                 </p>
               </NavLink>
@@ -55,7 +56,7 @@ export default function NoteList({
         })}
 
       {!notes.length && (
-        <div className="rounded-lg border-2 border-neutral-200 bg-neutral-100 p-2">
+        <div className="dark:text-neutral-0 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-2 dark:border-neutral-700 dark:bg-neutral-800">
           {isSearching
             ? "No notes match your search. Try a different keyword or create a new note."
             : emptyStateText}

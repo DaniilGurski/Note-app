@@ -35,13 +35,16 @@ export default function PasswordInput({
   return (
     <div className="grid gap-y-1.5">
       <div className="flex justify-between">
-        <label className="text-sm font-medium text-neutral-950" htmlFor={id}>
+        <label
+          className="dark:text-neutral-0 text-sm font-medium text-neutral-950"
+          htmlFor={id}
+        >
           {label}
         </label>
 
         {showForgotLink && (
           <Link
-            className="text-xs text-neutral-600 underline hover:text-blue-500 focus:text-blue-500"
+            className="text-xs text-neutral-600 underline hover:text-blue-500 focus:text-blue-500 dark:text-neutral-400"
             to="/auth/forgot-password"
           >
             Forgot
@@ -49,9 +52,12 @@ export default function PasswordInput({
         )}
       </div>
 
-      <div className="input-field" data-error={!!hint.error}>
+      <div
+        className="input-field dark:text-neutral-30 dark:border-neutral-600 dark:bg-transparent dark:hover:bg-neutral-800"
+        data-error={!!hint.error}
+      >
         <input
-          className="w-full outline-none"
+          className="dark:caret-neutral-0 w-full outline-none dark:text-neutral-300"
           id={id}
           type={type}
           aria-describedby={hint.id}
@@ -59,6 +65,7 @@ export default function PasswordInput({
         />
 
         <IconButton
+          className="dark:invert-100"
           onClick={handleToggleType}
           type="button"
           icon={type === "password" ? iconShowPassword : iconHidePassword}

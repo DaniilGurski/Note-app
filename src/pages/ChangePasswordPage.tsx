@@ -26,7 +26,10 @@ export default function ChangePasswordPage() {
   const methods = useForm<ChangePasswordFields>({
     resolver: zodResolver(ChangePasswordSchema),
   });
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
   const onSubmit: SubmitHandler<ChangePasswordFields> = async (data) => {
     const {
@@ -52,34 +55,24 @@ export default function ChangePasswordPage() {
             navigate("/settings");
           }}
         >
-          <img className="size-4" src={iconArrowLeft} alt="" />
-          <span> Settings </span>
+          <img className="size-4 dark:invert-100" src={iconArrowLeft} alt="" />
+          <span className="dark:text-neutral-0"> Settings </span>
         </button>
 
-        <h2 className="text-2xl font-bold text-neutral-950 lg:text-base lg:font-semibold">
+        <h2 className="dark:text-neutral-0 text-2xl font-bold text-neutral-950 lg:text-base lg:font-semibold">
           Change Password
         </h2>
       </header>
 
       <form className="grid gap-y-6" onSubmit={handleSubmit(onSubmit)}>
         <FormProvider {...methods}>
-          {/* <PasswordInput
-            label="Old Password"
-            id="old-password"
-            name="oldPassword"
-            hint={{
-              id: "old-password-hint",
-              error: errors.password,
-            }}
-          /> */}
-
           <PasswordInput
             label="New Password"
             id="new-password"
             name="newPassword"
             hint={{
               id: "new-password-hint",
-              // error: errors.password,
+              error: errors.newPassword,
               message: "At least 8 characters",
             }}
           />
@@ -90,7 +83,7 @@ export default function ChangePasswordPage() {
             name="confirmNewPassword"
             hint={{
               id: "confirm-new-password-hint",
-              // error: errors.password,
+              error: errors.confirmNewPassword,
             }}
           />
 

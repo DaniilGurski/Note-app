@@ -1,18 +1,14 @@
-import SearchBar from "@/components/ui/SearchBar";
-import IconButton from "@components/ui/buttons/IconButton";
 import NoteList from "@/components/NoteList";
-import MenuBar from "@/components/MenuBar";
 import TagList from "@/components/TagList";
 import { usePathname } from "@/hooks/usePathname";
 import { useEffect } from "react";
 import { Link, Outlet, useNavigate, useSearchParams } from "react-router";
-import iconSettings from "@assets/images/icon-settings.svg";
-import iconLogo from "@assets/images/logo.svg";
 import iconPlus from "@assets/images/icon-plus.svg";
 import iconArrowLeft from "@assets/images/icon-arrow-left.svg";
 import { useAtom, useAtomValue } from "jotai";
 import { noteListAtom, searchedTagAtom } from "@/atoms";
 import { useTags } from "@/hooks/useTags";
+import NotePageHeader from "@/components/NotePageHeader";
 
 export default function TaggedNotesPage() {
   const noteList = useAtomValue(noteListAtom);
@@ -34,28 +30,19 @@ export default function TaggedNotesPage() {
   }, []);
   return (
     <>
-      <header className="lg:bg-neutral-0 border-neutral-200 bg-neutral-100 px-4 py-3 sm:px-8 sm:py-7 lg:border-b-2">
-        <img className="block lg:hidden" src={iconLogo} alt="logo" />
-
-        {/* header content for desktops */}
-        <div className="hidden items-center justify-between lg:flex">
-          <h1 className="text-2xl font-bold">
-            <span className="text-neutral-600"> Notes Tagged: </span>
+      <NotePageHeader
+        pageHeadingContent={
+          <>
+            <span className="dark:text-neutral text-neutral-600 dark:text-neutral-300">
+              Notes Tagged:{" "}
+            </span>
             {searchedTag}
-          </h1>
-
-          <div className="flex items-center gap-x-4">
-            <SearchBar />
-            <Link to="/settings">
-              <img src={iconSettings} alt="settings" />
-              <span className="sr-only"> Go to settings</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+          </>
+        }
+      />
 
       <div className="hidden h-full grid-cols-[290px_1fr] lg:grid">
-        <div className="relative grid content-start gap-y-4 border-r-2 border-neutral-200 lg:p-5">
+        <div className="relative grid content-start gap-y-4 border-r-2 border-neutral-200 lg:p-5 dark:border-neutral-800">
           <Link
             className="text-neutral-0 hidden w-full cursor-pointer rounded-lg bg-blue-500 px-4 py-3 text-center text-sm font-medium outline-offset-2 outline-neutral-400 hover:bg-blue-700 focus:outline-2 disabled:bg-neutral-100 disabled:text-neutral-300 sm:text-base lg:inline-block"
             to="/tags/create-new"
@@ -63,8 +50,10 @@ export default function TaggedNotesPage() {
             + Create New Note
           </Link>
 
-          <p className="text-sm text-neutral-700">
-            All notes with the ”{searchedTag}” tag are shown here.
+          <p className="text-sm text-neutral-700 dark:text-neutral-300">
+            All notes with the{" "}
+            <span className="dark:text-neutral-0"> ”{searchedTag}” </span> tag
+            are shown here.
           </p>
 
           <NoteList
@@ -88,18 +77,26 @@ export default function TaggedNotesPage() {
                   navigate(-1);
                 }}
               >
-                <img className="size-4" src={iconArrowLeft} alt="" />
-                <span> Go back </span>
+                <img
+                  className="size-4 dark:invert-100"
+                  src={iconArrowLeft}
+                  alt=""
+                />
+                <span className="dark:text-neutral-0"> Go back </span>
               </button>
             </header>
 
-            <h1 className="text-2xl font-bold">
-              <span className="text-neutral-600"> Notes Tagged: </span>
+            <h1 className="dark:text-neutral-0 text-2xl font-bold">
+              <span className="dark:text-neutral text-neutral-600 dark:text-neutral-300">
+                Notes Tagged:{" "}
+              </span>
               {searchedTag}
             </h1>
 
-            <p className="text-sm text-neutral-700">
-              All notes with the ”{searchedTag}” tag are shown here.
+            <p className="text-sm text-neutral-700 dark:text-neutral-300">
+              All notes with the{" "}
+              <span className="dark:text-neutral-0"> ”{searchedTag}” </span> tag
+              are shown here.
             </p>
 
             <div className="relative">
@@ -122,7 +119,10 @@ export default function TaggedNotesPage() {
 
         {pathname === "/tags" && !searchParams.get("search") && (
           <>
-            <h1 className="text-2xl font-bold text-neutral-950"> Tags </h1>
+            <h1 className="dark:text-neutral-0 text-2xl font-bold text-neutral-950">
+              {" "}
+              Tags{" "}
+            </h1>
 
             <TagList tags={[...tags]} />
           </>

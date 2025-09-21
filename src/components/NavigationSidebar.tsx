@@ -1,7 +1,7 @@
 import NavigationLink from "@components/NavigationLink";
 import TagList from "@components/TagList";
-import iconLogo from "@assets/images/logo.svg";
 import iconHome from "@assets/images/icon-home.svg";
+import Logo from "@components/Logo";
 import iconArchive from "@assets/images/icon-archive.svg";
 
 import { useTags } from "@/hooks/useTags";
@@ -10,20 +10,21 @@ export default function NavigationSidebar() {
   const { tags } = useTags();
 
   return (
-    <div className="hidden min-w-72 content-start gap-y-4 border-r-2 border-neutral-200 px-4 py-3 text-sm font-medium lg:grid">
+    <div className="hidden min-w-72 content-start gap-y-4 border-r-2 border-neutral-200 px-4 py-6 text-sm font-medium lg:grid dark:border-neutral-800">
       <header>
-        <img src={iconLogo} alt="" />
+        <Logo />
       </header>
 
-      <div className="grid gap-y-2 divide-y-2 divide-neutral-200">
+      <div className="grid gap-y-2 divide-y-2 divide-neutral-200 dark:divide-neutral-800">
         <nav className="pb-2">
           <ul>
             <NavigationLink className="p-3" href="/notes">
-              <img src={iconHome} /> All Notes
+              <img className="dark:invert-100" src={iconHome} /> All Notes
             </NavigationLink>
 
             <NavigationLink className="p-3" href="/archive">
-              <img src={iconArchive} /> Archived Notes
+              <img className="dark:invert-100" src={iconArchive} /> Archived
+              Notes
             </NavigationLink>
           </ul>
         </nav>
