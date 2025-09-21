@@ -28,7 +28,7 @@ export default function ForgotPasswordForm() {
 
   const onSubmit: SubmitHandler<ForgotPasswordFields> = async (data) => {
     const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-      redirectTo: "https://note-app-five-nu.vercel.app/auth/reset-password",
+      redirectTo: "/auth/reset-password",
     });
 
     if (error) {
