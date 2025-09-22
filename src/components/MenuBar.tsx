@@ -21,7 +21,7 @@ export default function MenuBar() {
             to="/notes"
           >
             <img className="dark:invert-100" src={iconHome} alt="" />
-            <span>Home</span>
+            <span className="sr-only sm:inline">Home</span>
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -33,7 +33,7 @@ export default function MenuBar() {
             to="/search"
           >
             <img className="dark:invert-100" src={iconSearch} alt="" />
-            <span>Search</span>
+            <span className="sr-only sm:inline">Search</span>
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -45,7 +45,7 @@ export default function MenuBar() {
             to="/archive"
           >
             <img className="dark:invert-100" src={iconArchive} alt="" />
-            <span>Archive</span>
+            <span className="sr-only sm:inline">Archive</span>
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -57,7 +57,7 @@ export default function MenuBar() {
             to="/tags"
           >
             <img className="dark:invert-100" src={iconTag} alt="" />
-            <span>Tags</span>
+            <span className="sr-only sm:inline">Tags</span>
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -69,7 +69,7 @@ export default function MenuBar() {
             to="/settings"
           >
             <img className="dark:invert-100" src={iconSettings} alt="" />
-            <span>Settings</span>
+            <span className="sr-only sm:inline">Settings</span>
           </NavLink>
         </ul>
       </nav>
