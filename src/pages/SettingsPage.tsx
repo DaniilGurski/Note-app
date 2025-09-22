@@ -79,21 +79,21 @@ export default function SettingsPage() {
               <ul className="grid gap-y-2">
                 <li>
                   <NavigationLink className="py-2" href="color">
-                    <img className="invert-100" src={iconSun} alt="" />
+                    <img className="dark:invert-100" src={iconSun} alt="" />
                     Color Theme
                   </NavigationLink>
                 </li>
 
                 <li>
                   <NavigationLink className="py-2" href="font">
-                    <img className="invert-100" src={iconFont} alt="" />
+                    <img className="dark:invert-100" src={iconFont} alt="" />
                     Font Theme
                   </NavigationLink>
                 </li>
 
                 <li>
                   <NavigationLink className="py-2" href="change-password">
-                    <img className="invert-100" src={iconLock} alt="" />
+                    <img className="dark:invert-100" src={iconLock} alt="" />
                     Change Password
                   </NavigationLink>
                 </li>
