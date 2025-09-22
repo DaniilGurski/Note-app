@@ -18,9 +18,12 @@ export default function TaggedNotesPage() {
   const [searchParams] = useSearchParams();
   const [searchedTag, setSearchedTag] = useAtom(searchedTagAtom);
 
-  const filteredNotes = noteList.filter((note) =>
-    note.tags.join(" ").toLowerCase().includes(searchedTag),
-  );
+  const filteredNotes = noteList.filter((note) => {
+    return note.tags
+      .join(" ")
+      .toLowerCase()
+      .includes(searchedTag.toLowerCase());
+  });
 
   const { tags } = useTags();
 
@@ -28,6 +31,7 @@ export default function TaggedNotesPage() {
     setSearchedTag(searchParams.get("search")?.toLowerCase() || "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <NotePageHeader

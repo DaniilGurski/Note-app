@@ -15,7 +15,7 @@ export default function NoteList({
   emptyStateText,
 }: NoteListProps) {
   return (
-    <ul className="grid gap-y-2 divide-y-2 divide-neutral-200">
+    <ul className="grid gap-y-2 divide-y-2 divide-neutral-200 dark:divide-neutral-800">
       {notes.length > 0 &&
         notes.map((note) => {
           return (
